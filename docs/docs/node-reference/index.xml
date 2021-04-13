@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Node Reference on</title><link>https://luistar.github.io/knot/docs/node-reference/</link><description>Recent content in Node Reference on</description><generator>Hugo -- gohugo.io</generator><language>en-US</language><lastBuildDate>Tue, 06 Oct 2020 08:48:45 +0000</lastBuildDate><atom:link href="https://luistar.github.io/knot/docs/node-reference/index.xml" rel="self" type="application/rss+xml"/><item><title>Trajectory Interpolator</title><link>https://luistar.github.io/knot/docs/node-reference/trajectory-interpolator/</link><pubDate>Tue, 13 Oct 2020 15:21:01 +0200</pubDate><guid>https://luistar.github.io/knot/docs/node-reference/trajectory-interpolator/</guid><description>Input and output ports ⚠️
+Notice that, for the node to behave correctly, the input table should be sorted by Vehicle ID. We recommend you use the Sorter KNIME node to efficiently sort your dataset, if needed.
+Dialog parameters Node implementation Routing Strategies create Create new content for your site:
+npm run create [path] [flags]
+See also the Hugo docs: hugo new.
+lint Check scripts, styles, and markdown for errors:</description></item><item><title>Map Matcher</title><link>https://luistar.github.io/knot/docs/node-reference/map-matcher/</link><pubDate>Tue, 13 Oct 2020 15:21:01 +0200</pubDate><guid>https://luistar.github.io/knot/docs/node-reference/map-matcher/</guid><description>Input and output ports Dialog parameters Node implementation Routing Strategies 💡
+You can change the commands in the scripts section of ./package.json.
+create Create new content for your site:
+npm run create [path] [flags]
+See also the Hugo docs: hugo new.
+lint Check scripts, styles, and markdown for errors:
+npm run lint
+scripts Check scripts for errors:
+npm run lint:scripts [-- --fix]
+styles Check styles for errors:</description></item><item><title>Grid Coverage Analyzer</title><link>https://luistar.github.io/knot/docs/node-reference/grid-coverage-analyzer/</link><pubDate>Tue, 13 Oct 2020 15:21:01 +0200</pubDate><guid>https://luistar.github.io/knot/docs/node-reference/grid-coverage-analyzer/</guid><description>💡
+You can change the commands in the scripts section of ./package.json.
+create Create new content for your site:
+npm run create [path] [flags]
+See also the Hugo docs: hugo new.
+lint Check scripts, styles, and markdown for errors:
+npm run lint
+scripts Check scripts for errors:
+npm run lint:scripts [-- --fix]
+styles Check styles for errors:
+npm run lint:styles [-- --fix]
+markdown Check markdown for errors:</description></item><item><title>Segment Coverage Analyzer</title><link>https://luistar.github.io/knot/docs/node-reference/segment-coverage-analyzer/</link><pubDate>Tue, 13 Oct 2020 15:21:01 +0200</pubDate><guid>https://luistar.github.io/knot/docs/node-reference/segment-coverage-analyzer/</guid><description>💡
+You can change the commands in the scripts section of ./package.json.
+create Create new content for your site:
+npm run create [path] [flags]
+See also the Hugo docs: hugo new.
+lint Check scripts, styles, and markdown for errors:
+npm run lint
+scripts Check scripts for errors:
+npm run lint:scripts [-- --fix]
+styles Check styles for errors:
+npm run lint:styles [-- --fix]
+markdown Check markdown for errors:</description></item></channel></rss>
