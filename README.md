@@ -20,7 +20,7 @@
   <a href="https://github.com/luistar/knot/blob/master/LICENSE">
     <img src="https://img.shields.io/github/license/luistar/knot?style=flat-square" alt="GitHub">
   </a>
-  <a href="https://github.com/h-enk/doks/releases">
+  <a href="https://github.com/luistar/knot/releases">
     <img src="https://img.shields.io/github/v/release/luistar/knot?include_prereleases&style=flat-square"alt="GitHub release (latest SemVer including pre-releases)">
   </a>
 </p>
