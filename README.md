@@ -1,9 +1,3 @@
-<p align="center">
-  <a href="https://luistar.github.io/knot/">
-    <img alt="KNOT" src="https://luistar.github.io/knot/android-chrome-512x512.png" width="200">
-  </a>
-</p>
-
 <h1 align="center">
   KNOT
 </h1>
