@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+<plugin>
+
+    <!--<extension
+         point="org.knime.workbench.repository.categories">
+      <category
+            description="Category containing my nodes"
+            icon="src/org/unina/spatialanalysis/routecalculator/road-route-map-16.png"
+            level-id="mobility"
+            name="My nodes"
+            path="/community/mobility"/>
+	</extension>-->
+   
+   <extension
+         point="org.knime.workbench.repository.nodes">
+      <node
+            category-path="/"
+            factory-class="org.unina.spatialanalysis.routecalculator.RouteCalculatorNodeFactory"
+            id="org.knime.spatialanalysis.routecalculator.RouteCalculatorNodeFactory"/>
+   </extension>
+   
+</plugin>
