@@ -45,6 +45,7 @@ import org.knime.core.node.NodeLogger;
 import org.knime.core.node.NodeModel;
 import org.knime.core.node.NodeSettingsRO;
 import org.knime.core.node.NodeSettingsWO;
+import org.knime.core.node.defaultnodesettings.SettingsModelIntegerBounded;
 import org.unina.spatialanalysis.RouteStepAnalyzer.RouteStepAnalyzerNodeModel;
 import org.unina.spatialanalysis.RouteStepAnalyzer.entity.DetailedDataEntry;
 import org.unina.spatialanalysis.RouteStepAnalyzer.entity.SimpleDataEntry;
@@ -67,8 +68,20 @@ import org.unina.spatialanalysis.RouteStepAnalyzer.entity.visit.TimeSlot;
  */
 @SuppressWarnings("deprecation")
 public class RouteStepAnalyzerNodeModel extends NodeModel {
+	
+	private static final String MIN_TIME_SETTINGS = "m_min_time";
+	private static final int DEFAULT_MIN_TIME_SETTINGS = 0;
+	
     
 	private static final NodeLogger LOGGER = NodeLogger.getLogger(RouteStepAnalyzerNodeModel.class);
+	
+	private final SettingsModelIntegerBounded m_minTimeBetween = createMinTimeSettings();
+
+	
+	public static SettingsModelIntegerBounded createMinTimeSettings() {
+		return new SettingsModelIntegerBounded(MIN_TIME_SETTINGS, DEFAULT_MIN_TIME_SETTINGS, 0, Integer.MAX_VALUE);
+	}
+	
 	
 	/**
 	 * Constructor for the node model.
@@ -198,7 +211,7 @@ public class RouteStepAnalyzerNodeModel extends NodeModel {
 			}
 			
 			if(rowId.contains("NEVER_VISITED")) {
-				Segment	s = new Segment(originId, destinationId, tags, theGeom);
+				Segment	s = new Segment(originId, destinationId, tags, theGeom, m_minTimeBetween.getIntValue());
 				neverVisitedSegmentHolder.addSegment(s);
 			}else if(ownerId==Integer.MIN_VALUE || theGeom==null || beginAt== null || endAt==null || originId==Long.MIN_VALUE || destinationId == Long.MIN_VALUE) {
 				LOGGER.info("Row n " + currentRowCounter + " has invalid values! It will be skipped.\n");
@@ -207,7 +220,7 @@ public class RouteStepAnalyzerNodeModel extends NodeModel {
 				if(visitedSegmentHolder.containsSegment(originId, destinationId)) {
 					s = visitedSegmentHolder.getSegment(originId, destinationId);
 				}else {
-					s = new Segment(originId, destinationId, tags, theGeom);
+					s = new Segment(originId, destinationId, tags, theGeom, m_minTimeBetween.getIntValue());
 					visitedSegmentHolder.addSegment(s);
 				}
 				daysInDataSet.add(beginAt.toLocalDate());
@@ -224,11 +237,6 @@ public class RouteStepAnalyzerNodeModel extends NodeModel {
 		
 		int counter = 0;
 		
-		
-		while(exec.getProgressMonitor().getProgress()!=0) {
-			exec.setProgress(0.0);
-			System.out.println("Do I exit?");
-		}
 
 		for(Segment s: visitedSegmentHolder.getAllSegments()) {
 			s.generateResults();
@@ -253,11 +261,6 @@ public class RouteStepAnalyzerNodeModel extends NodeModel {
 		}
 		
 		counter = 0;
-		
-		while(exec.getProgressMonitor().getProgress()!=0) {
-			exec.setProgress(0.0);
-			System.out.println("Do I exit?");
-		}
 
 		for(Segment s: neverVisitedSegmentHolder.getAllSegments()) {
 			s.generateResults();
@@ -307,7 +310,15 @@ public class RouteStepAnalyzerNodeModel extends NodeModel {
 				 avgDayCell = DataType.getMissingCell();
 			}
 			complexCells.add(avgDayCell);
-
+			
+			DataCell medianDay;
+			if(dEntry.getMedianForDay()!=0) {
+				medianDay= new DoubleCell(dEntry.getMedianForDay());
+			}else {
+				medianDay = DataType.getMissingCell();
+			}
+			complexCells.add(medianDay);
+			
 			//Early Morning
 			DataCell nEmCell = new IntCell(dEntry.getnVisitsEM());
 			complexCells.add(nEmCell);
@@ -318,6 +329,15 @@ public class RouteStepAnalyzerNodeModel extends NodeModel {
 				avgEmCell = DataType.getMissingCell();
 			}
 			complexCells.add(avgEmCell);
+			DataCell medianEm;
+			if(dEntry.getMedianForEM()!=0) {
+				medianEm= new DoubleCell(dEntry.getMedianForEM());
+			}else {
+				medianEm = DataType.getMissingCell();
+			}
+			complexCells.add(medianEm);
+			
+			
 			//Mid Morning
 			DataCell nMmCell = new IntCell(dEntry.getnVisitsMM());
 			complexCells.add(nMmCell);
@@ -328,6 +348,14 @@ public class RouteStepAnalyzerNodeModel extends NodeModel {
 				avgMmCell = DataType.getMissingCell();
 			}
 			complexCells.add(avgMmCell);
+			DataCell medianMm;
+			if(dEntry.getMedianForMM()!=0) {
+				medianMm= new DoubleCell(dEntry.getMedianForMM());
+			}else {
+				medianMm = DataType.getMissingCell();
+			}
+			complexCells.add(medianMm);
+			
 			//Afternoon
 			DataCell nACell = new IntCell(dEntry.getnVisistsA());
 			complexCells.add(nACell);
@@ -338,6 +366,15 @@ public class RouteStepAnalyzerNodeModel extends NodeModel {
 				avgACell = DataType.getMissingCell();
 			}
 			complexCells.add(avgACell);
+			DataCell medianA;
+			if(dEntry.getMedianForDay()!=0) {
+				medianA= new DoubleCell(dEntry.getMedianForA());
+			}else {
+				medianA = DataType.getMissingCell();
+			}
+			complexCells.add(medianA);
+			
+			
 			//Evening
 			DataCell nECell = new IntCell(dEntry.getnVisistsE());
 			complexCells.add(nECell);
@@ -348,6 +385,15 @@ public class RouteStepAnalyzerNodeModel extends NodeModel {
 				avgECell = DataType.getMissingCell();
 			}
 			complexCells.add(avgECell);
+			DataCell medianE;
+			if(dEntry.getMedianForE()!=0) {
+				medianE= new DoubleCell(dEntry.getMedianForE());
+			}else {
+				medianE = DataType.getMissingCell();
+			}
+			complexCells.add(medianE);
+			
+			
 			DataCell tags = new StringCell(dEntry.getTags());
 			complexCells.add(tags);
 			DataCell theGeom = new StringCell(dEntry.getTheGeom());
@@ -377,6 +423,14 @@ public class RouteStepAnalyzerNodeModel extends NodeModel {
 			avg = DataType.getMissingCell();
 		}
 		simpleCells.add(avg);
+
+		DataCell median;
+		if(se.getMedianTime()!=0) {
+			median= new DoubleCell(se.getMedianTime());
+		}else {
+			median = DataType.getMissingCell();
+		}
+		simpleCells.add(median);
 		DataCell tags = new StringCell(se.getTags());
 		simpleCells.add(tags);
 		DataCell theGeom = new StringCell(se.getTheGeom());
@@ -415,6 +469,11 @@ public class RouteStepAnalyzerNodeModel extends NodeModel {
 			throw new InvalidSettingsException("The input table must contain the following columns: owner_id, begin_at, end_at, origin_id, destination_id, origin_tags, destination_tags, the_geom");
 		}
 		
+		if(m_minTimeBetween.getIntValue()<0) {
+			throw new InvalidSettingsException("The minimum time between visits cannot be negative!");
+
+		}
+		
 		return new DataTableSpec[] { createOutputForDetailed(),createOutputForSimple() };
 	}
 
@@ -434,26 +493,42 @@ public class RouteStepAnalyzerNodeModel extends NodeModel {
 		newColumnSpecs.add(specCreator.createSpec());
 		specCreator = new DataColumnSpecCreator("Day", DateAndTimeCell.TYPE);
 		newColumnSpecs.add(specCreator.createSpec());
+		
 		specCreator = new DataColumnSpecCreator("N° Visits(Day)", IntCell.TYPE);
 		newColumnSpecs.add(specCreator.createSpec());
 		specCreator = new DataColumnSpecCreator("AvgTime(Day)", DoubleCell.TYPE);
 		newColumnSpecs.add(specCreator.createSpec());
+		specCreator = new DataColumnSpecCreator("MedianTime(Day)", DoubleCell.TYPE);
+		newColumnSpecs.add(specCreator.createSpec());
+		
 		specCreator = new DataColumnSpecCreator("N° Visits("+TimeSlot.EARLY_MORNING.toString()+")", IntCell.TYPE);
 		newColumnSpecs.add(specCreator.createSpec());
 		specCreator = new DataColumnSpecCreator("AvgTime("+TimeSlot.EARLY_MORNING.toString()+")", DoubleCell.TYPE);
 		newColumnSpecs.add(specCreator.createSpec());
+		specCreator = new DataColumnSpecCreator("MedianTime("+TimeSlot.EARLY_MORNING.toString()+")", DoubleCell.TYPE);
+		newColumnSpecs.add(specCreator.createSpec());
+		
 		specCreator = new DataColumnSpecCreator("N° Visits("+TimeSlot.MID_MORNING.toString()+")", IntCell.TYPE);
 		newColumnSpecs.add(specCreator.createSpec());
 		specCreator = new DataColumnSpecCreator("AvgTime("+TimeSlot.MID_MORNING.toString()+")", DoubleCell.TYPE);
-		newColumnSpecs.add(specCreator.createSpec());;
+		newColumnSpecs.add(specCreator.createSpec());
+		specCreator = new DataColumnSpecCreator("MedianTime("+TimeSlot.MID_MORNING.toString()+")", DoubleCell.TYPE);
+		newColumnSpecs.add(specCreator.createSpec());
+		
 		specCreator = new DataColumnSpecCreator("N° Visits("+TimeSlot.AFTERNOON.toString()+")", IntCell.TYPE);
 		newColumnSpecs.add(specCreator.createSpec());
 		specCreator = new DataColumnSpecCreator("AvgTime("+TimeSlot.AFTERNOON.toString()+")", DoubleCell.TYPE);
 		newColumnSpecs.add(specCreator.createSpec());
+		specCreator = new DataColumnSpecCreator("MedianTime("+TimeSlot.AFTERNOON.toString()+")", DoubleCell.TYPE);
+		newColumnSpecs.add(specCreator.createSpec());
+		
 		specCreator = new DataColumnSpecCreator("N° Visits("+TimeSlot.EVENING.toString()+")", IntCell.TYPE);
 		newColumnSpecs.add(specCreator.createSpec());
 		specCreator = new DataColumnSpecCreator("AvgTime("+TimeSlot.EVENING.toString()+")", DoubleCell.TYPE);
 		newColumnSpecs.add(specCreator.createSpec());
+		specCreator = new DataColumnSpecCreator("MedianTime("+TimeSlot.EVENING.toString()+")", DoubleCell.TYPE);
+		newColumnSpecs.add(specCreator.createSpec());
+		
 		specCreator = new DataColumnSpecCreator("Tags", StringCell.TYPE);
 		newColumnSpecs.add(specCreator.createSpec());
 		HashMap<String, String> m = new HashMap<String, String>();
@@ -483,12 +558,10 @@ public class RouteStepAnalyzerNodeModel extends NodeModel {
 		simpleColumnSpecs.add(specCreator.createSpec());
 		specCreator = new DataColumnSpecCreator("N° Visits", IntCell.TYPE);
 		simpleColumnSpecs.add(specCreator.createSpec());
-		
-		
-		
 		specCreator = new DataColumnSpecCreator("Avg time Between", DoubleCell.TYPE);
-		DataColumnSpec e = specCreator.createSpec();
-		simpleColumnSpecs.add(e);
+		simpleColumnSpecs.add(specCreator.createSpec());
+		specCreator = new DataColumnSpecCreator("Median time", DoubleCell.TYPE);
+		simpleColumnSpecs.add(specCreator.createSpec());
 		specCreator = new DataColumnSpecCreator("Tags", StringCell.TYPE);
 		simpleColumnSpecs.add(specCreator.createSpec());
 		HashMap<String, String> m = new HashMap<String, String>();
@@ -519,7 +592,7 @@ public class RouteStepAnalyzerNodeModel extends NodeModel {
 		 * all common data types. Hence, you can easily write your settings manually.
 		 * See the methods of the NodeSettingsWO.
 		 */
-
+		m_minTimeBetween.saveSettingsTo(settings);
 	}
 
 	/**
@@ -534,8 +607,7 @@ public class RouteStepAnalyzerNodeModel extends NodeModel {
 		 * The SettingsModel will handle the loading. After this call, the current value
 		 * (from the view) can be retrieved from the settings model.
 		 */
-;
-
+		m_minTimeBetween.loadSettingsFrom(settings);
 
 	}
 
@@ -550,6 +622,7 @@ public class RouteStepAnalyzerNodeModel extends NodeModel {
 		 * already handled in the dialog. Do not actually set any values of any member
 		 * variables.
 		 */
+		m_minTimeBetween.validateSettings(settings);
 
 	}
 

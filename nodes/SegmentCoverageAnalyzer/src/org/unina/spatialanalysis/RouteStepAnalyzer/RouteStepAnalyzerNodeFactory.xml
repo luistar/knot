@@ -24,9 +24,9 @@
         		<li>destination_id, the OSM id of the destination node.</li>
         		<li>tags, the OSM tags associated to the ways to which the origin and destination nodes both belong.</li>
         		<li>the_geom, a String representation of a route formatted as WKT Linestring.</li>
-        		The best way to obtain such a table from a specific route is using the Map Matcher Node of the 
-        		KNOT toolkit.
         	</ul>
+        		The best way to obtain such a table is using the Map Matcher Node of the 
+        		KNOT toolkit.
         </inPort>
           <outPort index="0" name="For Day">A table containing the following information:
         	<ul>

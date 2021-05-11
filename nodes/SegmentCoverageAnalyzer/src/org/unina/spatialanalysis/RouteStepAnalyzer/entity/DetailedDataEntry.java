@@ -19,21 +19,31 @@ public class DetailedDataEntry {
 	
 	private Double avgForDay;
 	
+	private double medianForDay;
+	
 	private Integer nVisitsEM;
 	
 	private Double avgForEM;
+	
+	private double medianForEM;
 	
 	private Integer nVisitsMM;
 	
 	private Double avgForMM;
 	
+	private double medianForMM;
+	
 	private Integer nVisistsA;
 	
 	private Double avgForA;
 	
+	private double medianForA;
+	
 	private Integer nVisistsE;
 	
 	private Double avgForE;
+	
+	private Double medianForE;
 	
 	private String tags;
 	
@@ -217,22 +227,54 @@ public class DetailedDataEntry {
 		this.theGeom = theGeom;
 	}
 	
+	
+	
+	public double getMedianForDay() {
+		return medianForDay;
+	}
+
+	public double getMedianForEM() {
+		return medianForEM;
+	}
+
+	public double getMedianForMM() {
+		return medianForMM;
+	}
+
+	public double getMedianForA() {
+		return medianForA;
+	}
+
+	public Double getMedianForE() {
+		return medianForE;
+	}
+
 	public DetailedDataEntry(LocalDate ld, Segment s, HitHolder vholder) {
 		this.originId = s.getOriginId();
 		this.destinationId = s.getDestinationId();
 		this.day = ld.atStartOfDay();
 		this.theGeom = s.getTheGeom();
 		this.tags = s.getTags();
+		
 		this.avgForEM = vholder.getAverageTimeBetweenVisits(TimeSlot.EARLY_MORNING);
 		this.nVisitsEM = vholder.getTotalVisits(TimeSlot.EARLY_MORNING);
+		this.medianForEM = vholder.getMedianTimeBetweenVisits(TimeSlot.EARLY_MORNING);
+		
 		this.avgForMM = vholder.getAverageTimeBetweenVisits(TimeSlot.MID_MORNING);
 		this.nVisitsMM = vholder.getTotalVisits(TimeSlot.MID_MORNING);
+		this.medianForMM = vholder.getMedianTimeBetweenVisits(TimeSlot.MID_MORNING);
+		
 		this.avgForA= vholder.getAverageTimeBetweenVisits(TimeSlot.AFTERNOON);
 		this.nVisistsA = vholder.getTotalVisits(TimeSlot.AFTERNOON);
+		this.medianForA = vholder.getMedianTimeBetweenVisits(TimeSlot.AFTERNOON);
+		
 		this.avgForE= vholder.getAverageTimeBetweenVisits(TimeSlot.EVENING);
 		this.nVisistsE = vholder.getTotalVisits(TimeSlot.EVENING);
+		this.medianForE = vholder.getMedianTimeBetweenVisits(TimeSlot.EVENING);
+		
 		this.avgForDay= vholder.getAverageTimeBetweenVisits(TimeSlot.WHOLE_DAY);
 		this.nVisitsInDay = vholder.getTotalVisits(TimeSlot.WHOLE_DAY);
+		this.medianForDay = vholder.getMedianTimeBetweenVisits(TimeSlot.WHOLE_DAY);
 	}
 
 	public long getOriginId() {

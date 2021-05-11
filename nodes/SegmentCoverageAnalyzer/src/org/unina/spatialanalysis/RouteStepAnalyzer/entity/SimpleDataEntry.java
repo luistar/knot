@@ -9,6 +9,7 @@ public class SimpleDataEntry {
 	private Integer totalVisit;
 	private String tags;
 	private double avgTime;
+	private double medianTime;
 	
 	/**
 	 * @return the tags
@@ -43,13 +44,18 @@ public class SimpleDataEntry {
 		this.theGeom = s.getTheGeom();
 		this.tags = s.getTags();
 		this.totalVisit = s.getNumberOfHits();
-		if(totalVisit-1>1) {
-			this.avgTime = s.getTotalTimeBetweenHits()/s.getNumberOfHits();
+		if(totalVisit-1>0) {
+			this.avgTime = s.getTotalTimeBetweenHits()/(totalVisit-1);
 		}else {
 			this.avgTime = 0;
 		}
-	
+		this.medianTime = s.getMedianTime();
 	}
+	
+	public double getMedianTime() {
+		return medianTime;
+	}
+	
 	public double getAvgTime() {
 		return avgTime;
 	}
