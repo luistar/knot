@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml>
+<knimeNode icon="./mapmatcher-16.png" type="Manipulator" xmlns="http://knime.org/node/v2.8" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://knime.org/node/v2.10 http://knime.org/node/v2.10.xsd">
+    <name>Map Matcher</name>
+    
+    <shortDescription>
+        Match a route, described as a WKT-like Linestring, to the traversed street segments. 
+    </shortDescription>
+    
+    <fullDescription>
+        <intro>This node takes a route, encoded as a WKT Linestring, and matches it to a sequence of traversed OSM road segments, that can be analyzed
+        	   by the coverage analyzer nodes in KNOT. 
+        	   The node requires that the input table contains three columns:
+        	   <ul>
+        	   	<li>id, an integer that identifies the owner of the route;</li>
+        	   	<li>begin_at, a LocalDateTime that pinpoints the starting time of the route; </li>
+        	   	<li>the_geom, a String containing a WKT-like representation of the route.</li>
+        	   </ul>
+        </intro>
+        
+        
+        <option name="Pair Type">The setting informs the node about the type of coordinate pairs contained in
+        the Linestring. Either {lon,lat} or {lon,lat}.</option>
+        <option name="Osm Data Path">The path in which the .osm file containing the map data can be found.</option>
+        <option name="Osrm Host Field">The url at which the OSRM instance used for map-matching can be reached</option>
+        <option name="Include Never Visited Segments">By enabling this checkbox also the segments that were never visited
+        will be added to the result table. If not, only the segments visited at least once will show up in the result.</option>
+        
+    </fullDescription>
+    
+    <ports>
+        <inPort index="0" name="Routes">A table containining data about routes. 
+        It must contain the following columns:
+        	   <ul>
+        	   	<li>id, an integer that identifies the owner of the route;</li>
+        	   	<li>begin_at, a LocalDateTime that pinpoints the starting time of the route; </li>
+        	   	<li>the_geom, a String containing a WKT-like representation of the route.</li>
+        	   </ul> 
+       	   </inPort>
+        <outPort index="0" name="Matched Segments">A table containing information about the traversed segments
+        for each input route and, optionally, data about the segments that were never visited.</outPort>
+    </ports>    
+</knimeNode>

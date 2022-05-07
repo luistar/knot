@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+<plugin>
+
+    <extension
+         point="org.knime.workbench.repository.categories">
+      <category
+            description="KNOT"
+            icon="src/org/unina/spatialanalysis/routestepanalyzer/map-search-16.png"
+            level-id="knot"
+            name="KNOT"
+            path="/"/>
+	</extension>
+
+   <extension
+         point="org.knime.workbench.repository.nodes">
+      <node
+            category-path="/knot"
+            factory-class="org.unina.spatialanalysis.routestepanalyzer.RouteStepAnalyzerNodeFactory" />
+   </extension>
+   
+</plugin>

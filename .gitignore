@@ -1,0 +1,24 @@
+.metadata
+bin
+tmp
+*.tmp
+*.bak
+*.swp
+
+# Maven 
+target
+
+# IntelliJ project files 
+*.iml
+*.iws
+*.ipr
+.idea
+
+# eclipse project file
+# .loadpath
+.settings
+.classpath
+.project
+
+#KNIME
+runtime-KNIME

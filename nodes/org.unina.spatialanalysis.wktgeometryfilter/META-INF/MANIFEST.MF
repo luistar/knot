@@ -1,0 +1,20 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: WKT Geometry Filter-Node extension for KNIME Workbench
+Bundle-SymbolicName: org.unina.spatialanalysis.wktgeometryfilter;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-ClassPath: lib/jxmapviewer2-2.6.jar,
+ lib/commons-logging-1.2.jar,
+ lib/sf-2.0.6.jar,
+ lib/sf-wkt-1.0.3.jar,
+ wktgeometryfilter.jar
+Bundle-Activator: org.unina.spatialanalysis.wktgeometryfilter.WKTGeometryFilterNodePlugin
+Bundle-Vendor: 
+ Roland Varriale
+Require-Bundle: org.eclipse.core.runtime,
+ org.knime.workbench.core,
+ org.knime.workbench.repository,
+ org.knime.base
+Bundle-ActivationPolicy: lazy
+Export-Package: org.unina.spatialanalysis.wktgeometryfilter
+Automatic-Module-Name: org.unina.spatialanalysis.wktgeometryfilter

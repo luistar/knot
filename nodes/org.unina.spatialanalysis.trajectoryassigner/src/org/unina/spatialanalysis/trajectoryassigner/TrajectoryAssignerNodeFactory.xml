@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml>
+<knimeNode icon="./partitioner-16.png" type="Manipulator" xmlns="http://knime.org/node/v2.8" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://knime.org/node/v2.10 http://knime.org/node/v2.10.xsd">
+    <name>Trajectory Partitioner</name>
+    
+    <shortDescription>
+        This node takes as input a collection of Floating Car Data from possibly many vehicles and partitions 
+        it into subsets representing each a distinct trajectory.
+    </shortDescription>
+    
+    <fullDescription>
+        <intro>This node takes as input a collection of Floating Car Data from possibly many vehicles and partitions 
+        it into subsets representing each a vehicular trajectory. The node assumes that the input data is sorted
+        by vehicle id.</intro>
+        
+        
+        <option name="Route Assigner Mode">Select how the positions are broken down into routes. The only option currently supported is
+        default, which consider two subsequent recordings to be on different routes if more time than
+        a customizable threshold has passed.</option>
+        <option name="Coordinate Pair Type">Either {lon, lat} or {lat, lon}, accordingly to the data set format</option>
+		<option name="Over multiple days">If selected a route can consist of multiple days, otherwise two subsequent
+		recordings in two different days will always be considered in two different routes.</option>
+		<option name="Stationary Minutes Threshold">A value in minutes that controls wether two subsequent 
+		recording belong to the same route. If a vehicle hasn't moved for more time
+		than this value then the new position will be considered the seed of a new route and
+		the old one is closed. </option>
+		<option name="Minimum Recordings">A value that determines wether a route is valid or not. Routes
+		containing less points than this value will be discarded.</option>
+		       
+    </fullDescription>
+    
+    <ports>
+        <inPort index="0" name="Floating Car Data">A table containing the following
+        columns:
+        	<ul>
+        		<li>id, identifying the position owner.</li>
+        		<li>timestamp, a String containining information about the time of the recording.</li>
+        		<li>location, a String like POINT(coordinate coordinate)</li>
+        	</ul>
+        	The input table must be sorted by id.
+        </inPort>
+        <!-- possibly more input ports here-->
+        <outPort index="0" name="Matched Routes">The routes described as WKT Linestring.</outPort>
+        <outPort index="1" name="Positions in Routes">The input positions with the added column route_id, identifying the
+        route to which they belong.</outPort>
+    </ports>    
+</knimeNode>

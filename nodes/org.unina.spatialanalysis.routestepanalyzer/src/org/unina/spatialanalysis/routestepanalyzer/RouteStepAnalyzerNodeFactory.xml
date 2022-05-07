@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml>
+<knimeNode icon="./segment-coverage-analysis-16.png" type="Manipulator" xmlns="http://knime.org/node/v2.8" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://knime.org/node/v2.10 http://knime.org/node/v2.10.xsd">
+    <name>Segment Coverage Analyzer</name>
+    
+    <shortDescription>
+        See how often and how many times a road segment was visited.
+    </shortDescription>
+    
+    <fullDescription>
+        <intro>The node takes as input the Route Steps computed by the Map Matcher Node. Each distinct 
+        pair is treated as a segment, on which the node proceeds to calculate information about the
+        number of times it was visited and how frequently a visit was made.
+        </intro>
+    </fullDescription>
+    
+    <ports>
+      	<inPort index="0" name="Routes">The input table must have the following columns:
+        	<ul>
+        		<li>id, an integer representing the route owner.</li>
+        		<li>begin_at, a DateAndTime containing information on the moment at which the route step began.</li>
+        		<li>end_at, a DataAndTime continaining information on the moment at which the route step finished.</li>
+        		<li>origin_id, the OSM id of the origin node.</li>
+        		<li>destination_id, the OSM id of the destination node.</li>
+        		<li>tags, the OSM tags associated to the ways to which the origin and destination nodes both belong.</li>
+        		<li>the_geom, a String representation of a route formatted as WKT Linestring.</li>
+        	</ul>
+        		The best way to obtain such a table is using the Map Matcher Node of the 
+        		KNOT toolkit.
+        </inPort>
+          <outPort index="0" name="For Day">A table containing the following information:
+        	<ul>
+        		<li>The origin and destination OSM id, their tags and their geometry</li>
+        		<li>The times it was traversed on a given day, the average time between visits and the same information
+        			broken down among four time slots ([00:00-06:00],[06:00-12:00],[12:00-18:00],[18:00-24:00])</li>
+        	</ul>
+        </outPort>
+	  	<outPort index="1" name="For Whole Data-Set">A table containing the following information:
+	  		<ul>
+	  			<li>The origin and destination, their tags and their geometry</li>
+	  			<li>The times it was traversed in the whole data-set and the average time between visits.</li>
+	  		</ul>
+	  	</outPort>
+    </ports>    
+</knimeNode>

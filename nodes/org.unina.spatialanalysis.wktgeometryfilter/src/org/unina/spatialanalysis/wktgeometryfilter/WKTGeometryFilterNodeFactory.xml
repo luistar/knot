@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<knimeNode icon="./wkt-filter-16.png" type="Manipulator" xmlns="http://knime.org/node/v2.8" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://knime.org/node/v2.10 http://knime.org/node/v2.10.xsd">
+	<name>WKT Geometry Filter</name>
+
+	<shortDescription>
+        Filtering rows with WKT geometries through a bounding box.
+    </shortDescription>
+
+	<fullDescription>
+		<intro>
+			This node takes as input a table with a geometry column in Well Know Text (WKT) and the coordinates of a rectangle.
+			The node will output a table like the input table with only the rows that are inside the rectangle.
+		</intro>
+
+		<option name="Geometry Column">String containing the location in WKT</option>
+		<option name="Coordinate Pair Type"> Specifies if the input data positions are either lat/lon or lon/lat.</option>
+		<option name="Minimum Latitude">The minimum Latitude of the bounding box.</option>
+		<option name="Maximum Latitude">The maximum Latitude of the bounding box.</option>
+		<option name="Minimum Longitude">The minimum Longitude of the bounding box.</option>
+		<option name="Minimum Longitude">The minimum Longitude of the bounding box.</option>
+		<option name="Maximum Longitude">The maximum Longitude of the bounding box.</option>
+	</fullDescription>
+
+	<ports>
+		<inPort index="0" name="Initial Data-Set">Table to be filtered.</inPort>
+		<outPort index="0" name="Filtered Data-Set">This port contains the rows that fall within the bounding box area selected in the settings.</outPort>
+	</ports>
+	<!--<views>
+        <view index="0" name="name of first view">Description of first view...</view>
+        view index="1" name="name of second view">Description of second view...</view>
+    </views> -->
+</knimeNode>

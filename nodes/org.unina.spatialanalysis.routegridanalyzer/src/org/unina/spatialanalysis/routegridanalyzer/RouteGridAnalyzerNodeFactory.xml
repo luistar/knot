@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml>
+<knimeNode icon="./grid-analyzer-16.png" type="Manipulator" xmlns="http://knime.org/node/v2.8" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://knime.org/node/v2.10 http://knime.org/node/v2.10.xsd">
+    <name>Grid Coverage Analyzer</name>
+    
+    <shortDescription>
+        Given a set of map-matched trajectories, splits a geographic area into a grid and computes how often each grid cell is visited.
+    </shortDescription>
+    
+    <fullDescription>
+        <intro>The node allows users to define a custom grid over a desidered geographical area by specifying a bounding box, a number of rows
+        and a number of columns. It then proceeds to compute the number of times each grid cell was visited by one of the agents performing 
+        the input map-matched trajectories. A visit to a grid cell is considered valid if the agent is entering that cell for the first time, 
+        or if the time between the current visit and the previous one is more than a threshold (in minutes), which can be customized 
+        in the input dialog.
+        The node offers two output tables, one considering the whole input data-set and the other grouping the coverage information 
+        by day.
+        </intro>
+
+        <option name="Minimum Latitude">The minimum Latitude of the grid.</option>
+	    <option name="Maximum Latitude">The maximum Latitude of the grid.</option>
+        <option name="Minimum Longitude">The minimum Longitude of the grid.</option>
+		<option name="Minimum Longitude">The minimum Longitude of the grid.</option>
+        <option name="Maximum Longitude">The maximum Longitude of the grid.</option>
+        <option name="Number of Rows">The number of Rows of the grid.</option>		        
+        <option name="Number of columns">The number of Columns of the grid.</option>
+        <option name="Minimum time between visits">The number of minutes between to valid visits.</option>
+    </fullDescription>
+    
+    <ports>
+        <inPort index="0" name="Route Steps">The input data must contain the following information:
+			<ul>
+        		<li>owner_id, an integer representing the route step owner.</li>
+        		<li>begin_at, a LocalDateTime containing information on the moment at which the route step began.</li>
+        		<li>end_at, a LocalDateTime containing information on the moment at which the route step finished</li>
+        		<li>the_geom, a String representation of a route formatted as WKT Linestring</li>
+        	</ul>
+        </inPort>
+        <outPort index="0" name="For Day">Information on how often a grid cell was visited broken down by day
+        and by time slow within a day.</outPort>
+        <outPort index="1" name="For Whole Data Set">Information on how often a grid cell was visited.</outPort>
+    </ports>    
+   
+</knimeNode>
