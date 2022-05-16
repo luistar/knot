@@ -70,12 +70,12 @@ public class MapMatcherNodeDialog extends DefaultNodeSettingsPane {
         
 		SettingsModelColumnName idColSettingModel = MapMatcherNodeModel.createColIDSettings();
 		DialogComponentColumnNameSelection idColumnSelection = new DialogComponentColumnNameSelection(
-				idColSettingModel, "ID Column", 0, false, true, IntValue.class);
+				idColSettingModel, "Vehicle ID Column", 0, false, true, IntValue.class);
 		addDialogComponent(idColumnSelection);
         
 		SettingsModelColumnName beginAtColSettingModel = MapMatcherNodeModel.createColIDSettings();
 		DialogComponentColumnNameSelection beginAtColumnSelection = new DialogComponentColumnNameSelection(
-				beginAtColSettingModel, "Begin At Column", 0, false, true, DateAndTimeValue.class);
+				beginAtColSettingModel, "Timestamp Column", 0, false, true, DateAndTimeValue.class);
 		addDialogComponent(beginAtColumnSelection);
 
 		SettingsModelColumnName geomtryColSettingModel = MapMatcherNodeModel.createColIDSettings();
