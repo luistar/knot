@@ -1,37 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE xml>
 <knimeNode icon="./road-route-map-16.png" type="Manipulator" xmlns="http://knime.org/node/v2.8" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://knime.org/node/v2.10 http://knime.org/node/v2.10.xsd">
-	<name>Trajectory Manipulator</name>
+	<name>Route Calculator</name>
 
 	<shortDescription>
-        Manipulates Floating Car Data (FCD) trajectories accordin to customizable strategies.
+        Computes routes according to different strategies.
     </shortDescription>
 
 	<fullDescription>
-		<intro>The Node takes as input a table with the same structure as the Positions in Routes output of the KNOT Trajectory Partitioner node and proceeds to manipulate the original trajectories, producing in output 
-        new trajectories encoded as WKT Linestrings of lon/lat pairs. The node assumes that the input data contains at least the following information:
-        an id of the vehicle, an id of the route, a time, a GPS position.
-        The routing calculations are done via an external API (the current version supports only Project OSRM).</intro>
+		<intro>This Node takes as input a table with the same structure as the "Input data augmented with a Trajectory ID" output of the "Trajectory Partitioner" node and 
+		computes vehicular trajectories according to a customizable strategy, producing in output a new set of
+        trajectories encoded as WKT Linestrings. The node assumes that the input data contains at least the following information:
+        an id of the vehicle, an id of the route, a timestamp, a GPS position.
+        The routing computation is done via an external Routing Service. The current implementation supports 
+        the Open Source Routing Machine (OSRM) as a routing service. Support for other routing services can be introduced by extending the node.
+        As for the routing strategies, currently only "shortest path" is supported.
+        This strategy considers only the first and the last points in the original trajectory,
+		and computes the shortest path between them. If the original trajectory contains more than two positions,
+		the additional positions will be ignored.</intro>
 
-		<option name="Coordinate Pair Type"> Specifies if the input data positions are either lat/lon or lon/lat.</option>
+		<option name="Coordinate Input Format"> Either {lon, lat} or {lat, lon}, accordingly to the input format.</option>
 		<option name="Routing Service">The routing service to be used. </option>
-		<option name="Routing Server Host"> Specifies the host for the routing service.</option>
-		<option name="Routing Mode"> Allows the user to select how the routes should be calculated.</option>
-		<option name="Minum Duration">A route that lasts less than this number of minutes will be discarded.</option>
-		<option name="Minum Distance">A route that lasts less than this number of meters will be discarded.</option>
+		<option name="Routing Server endpoint"> Specifies the endpoint for the routing service.</option>
+		<option name="Routing Strategy"> Allows the user to select a routing strategy.</option>
+		<option name="Minum Duration">Routes that lasts less than this number of minutes will be discarded.</option>
+		<option name="Minum Distance">Routes shorter than this number of meters will be discarded.</option>
 	</fullDescription>
 	<ports>
-		<inPort index="0" name="Positions Data-Set">
+		<inPort index="0" name="Input data">
 			The input table must contains at least the following columns:
 			<ul>
 				<li>route_id, a long identifying the route.</li>
-				<li>owner_id, an integer identifying the owner of the position;</li>
+				<li>vehicle_id, an integer identifying the vehicle id;</li>
 				<li>timestamp, a String identifying when this position was recorded;</li>
-				<li>location, a String containing the location similar to POINT( coordinate1 coordinate2).</li>
+				<li>location, a WKT String containing positions (e.g.: "POINT( coordinate1 coordinate2)".</li>
 			</ul>
-			The input data must be sorted by route_id. The best way to achieve this conditions is to use
-        	the node Trajectory Assigner of the KNOT toolkit.
+			The input data must be sorted by route_id.
 		</inPort>
-		<outPort index="0" name="Routes">This port contains the routes calculated accordingly to the route type chosen in the settings</outPort>
+		<outPort index="0" name="Computed routes">This port contains the routes computed according to the selected
+		routing strategy.</outPort>
 	</ports>
 </knimeNode>

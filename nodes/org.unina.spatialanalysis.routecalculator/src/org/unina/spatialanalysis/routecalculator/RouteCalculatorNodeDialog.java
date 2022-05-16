@@ -27,9 +27,9 @@ public class RouteCalculatorNodeDialog extends DefaultNodeSettingsPane {
 	private static final String [] OSRMAvailableModes = {"shortest"};
 	
 	private static final String PAIR_TYPE_TOOLTIP = "<html>"
-												  + "This setting informs the node about the type of points present"
-												  + "<br>in the input data.</br>"
-												  + "</html>";
+			  + "This setting is used to specify the coordinate input format to be used."
+			  + "<br>Both (lat, lon) and (lon, lat) formats are supported</br>"
+			  + "</html>";
 	
 	private static final String OSRM_SERVER_TOOLTIP = "<html>"
 													+ "The url inserted here must correspond to a running instance"
@@ -37,19 +37,18 @@ public class RouteCalculatorNodeDialog extends DefaultNodeSettingsPane {
 													+ "</html>";
 	
 	private static final String ROUTING_MODE_TOOLTIP = "<html>"
-													+ "Choosing match means that a set of positions belonging to the same route"
-													+ "<br>will be all used to found the most likely traversed path.</br>"
-													+ "<br>Choosing shortest means that only the starting and ending position will be</br>"
-													+ "<br>used to determine the shortest possible path between them.</br>"
-													+ "</html>";
+													+ "Select a routing strategy. Currently, only the <i>shortest</i> strategy is supported."
+													+ "<br>This strategy considers only the first and the last points in the original trajectory,</br>"
+													+ "<br>and computes the shortest path between them. If the original trajectory contains more than two positions, </br>"
+													+ "the additional positions will be ignored.</html>";
 	
 	private static final String MIN_ROUTE_DISTANCE_TOOLTIP =  "<html>"
-															+ "This value (meters) is used to determine wether a route should be considered valid."
-															+ "<br>Routes that are less long than this value will be discarded.</br>"
+															+ "This value (in meters) is used to determine wether a route should be discarded."
+															+ "<br>Routes that are shorter than this value will be discarded.</br>"
 															+ "</html>";
 		
 	private static final String MIN_ROUTE_DURATION_TOOLTIP = "<html>"
-															+ "This value (minutes) is used to determine wether a route should be considered valid."
+															+ "This value (in minutes) is used to determine wether a route should be discarded."
 															+ "<br>Routes that last less than this value will be discarded.</br>"
 															+ "</html>";
 	
@@ -67,11 +66,11 @@ public class RouteCalculatorNodeDialog extends DefaultNodeSettingsPane {
         this.createNewGroup("Column Selector");
 
         SettingsModelColumnName colownerIDColSettingModel = RouteCalculatorNodeModel.createColOwnerIDSettings();
-		DialogComponentColumnNameSelection colownerIDColumnSelection = new DialogComponentColumnNameSelection(colownerIDColSettingModel, "Owner ID Column", 0, false, true, IntValue.class);
+		DialogComponentColumnNameSelection colownerIDColumnSelection = new DialogComponentColumnNameSelection(colownerIDColSettingModel, "Vehicle ID Column", 0, false, true, IntValue.class);
 		addDialogComponent(colownerIDColumnSelection);
 
         SettingsModelColumnName colRouteIDColSettingModel = RouteCalculatorNodeModel.createColRouteIDSettings();
-		DialogComponentColumnNameSelection colRouteIDColumnSelection = new DialogComponentColumnNameSelection(colRouteIDColSettingModel, "Route ID Column", 0, false, true, IntValue.class);
+		DialogComponentColumnNameSelection colRouteIDColumnSelection = new DialogComponentColumnNameSelection(colRouteIDColSettingModel, "Trajectory ID Column", 0, false, true, IntValue.class);
 		addDialogComponent(colRouteIDColumnSelection);
 		
     	SettingsModelColumnName colTimestampSettingModel = RouteCalculatorNodeModel.createColTimestampSettings();
@@ -86,35 +85,35 @@ public class RouteCalculatorNodeDialog extends DefaultNodeSettingsPane {
         this.createNewGroup("Configuration");
         
         SettingsModelString routingService = RouteCalculatorNodeModel.createRoutingServiceSettings();
-        DialogComponentStringSelection routingServiceSelector = new DialogComponentStringSelection(routingService, "Select the Routing Machine: ", avaibleRoutingServices);
+        DialogComponentStringSelection routingServiceSelector = new DialogComponentStringSelection(routingService, "Select the routing service: ", avaibleRoutingServices);
         this.addDialogComponent(routingServiceSelector);
 		
 		SettingsModelString osrmHost = RouteCalculatorNodeModel.createRoutingServiceHostSettings();
-		DialogComponentString osrmServerSelector = new DialogComponentString(osrmHost, "Insert OSRM server: ", true, 40);
+		DialogComponentString osrmServerSelector = new DialogComponentString(osrmHost, "Routing Service endpoint: ", true, 40);
 		osrmServerSelector.setToolTipText(OSRM_SERVER_TOOLTIP);
 		osrmHost.setEnabled(true);
 		addDialogComponent(osrmServerSelector);
 		
 		SettingsModelString routingMode = RouteCalculatorNodeModel.createRoutingModeSettings();
-		DialogComponentStringSelection routingModeSelector = new DialogComponentStringSelection(routingMode, "Trajectory Manipulation Strategy :", OSRMAvailableModes);
+		DialogComponentStringSelection routingModeSelector = new DialogComponentStringSelection(routingMode, "Routing strategy:", OSRMAvailableModes);
 		routingModeSelector.setToolTipText(ROUTING_MODE_TOOLTIP);
 		routingMode.setEnabled(true);
 		addDialogComponent(routingModeSelector);
 		
 		SettingsModelString coordinatePairType = RouteCalculatorNodeModel.createCoordinatePairTypeSettings();
-		DialogComponentStringSelection pairTypeSelector = new DialogComponentStringSelection(coordinatePairType, "Select the coordinates pair type of the input data:","{lat,lon}","{lon,lat}") ;
+		DialogComponentStringSelection pairTypeSelector = new DialogComponentStringSelection(coordinatePairType, "Coordinate input format:","{lat,lon}","{lon,lat}") ;
 		pairTypeSelector.setToolTipText(PAIR_TYPE_TOOLTIP);
 		coordinatePairType.setEnabled(true);
 		addDialogComponent(pairTypeSelector);	
 		
 		SettingsModelIntegerBounded minRouteDistance = RouteCalculatorNodeModel.createMinRouteDistanceSettings();
-		DialogComponentNumberEdit minRouteDistanceSelector = new DialogComponentNumberEdit(minRouteDistance, "Ignore al routes that are less than this value (meters) long : ", 10);
+		DialogComponentNumberEdit minRouteDistanceSelector = new DialogComponentNumberEdit(minRouteDistance, "Discard routes shorter than (meters): ", 10);
 		minRouteDistanceSelector.setToolTipText(MIN_ROUTE_DISTANCE_TOOLTIP);
 		minRouteDistance.setEnabled(true);
 		addDialogComponent(minRouteDistanceSelector);
 		
 		SettingsModelIntegerBounded minRouteDuration = RouteCalculatorNodeModel.createMinRouteDurationSettings();
-		DialogComponentNumberEdit minRouteDurationSelector = new DialogComponentNumberEdit(minRouteDuration, "Ignore al routes that are less than this value (minutes) long : ", 10);
+		DialogComponentNumberEdit minRouteDurationSelector = new DialogComponentNumberEdit(minRouteDuration, "Discard routes shorter than (minutes): ", 10);
 		minRouteDurationSelector.setToolTipText(MIN_ROUTE_DURATION_TOOLTIP);
 		minRouteDuration.setEnabled(true);
 		addDialogComponent(minRouteDurationSelector);
