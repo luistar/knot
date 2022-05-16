@@ -31,8 +31,8 @@ import org.knime.core.node.defaultnodesettings.SettingsModelString;
 public class TrajectoryAssignerNodeDialog extends DefaultNodeSettingsPane {
 	
 	private static final String PAIR_TYPE_TOOLTIP = "<html>"
-			  + "This setting informs the node about the type of points present"
-			  + "<br>in the input data.</br>"
+			  + "This setting is used to specify the coordinate input format to be used."
+			  + "<br>Both (lat, lon) and (lon, lat) formats are supported</br>"
 			  + "</html>";
 	
 	private static final String ALLOW_SPAWN_MULTIPLE_DAYS = "<html>"
@@ -42,15 +42,14 @@ public class TrajectoryAssignerNodeDialog extends DefaultNodeSettingsPane {
 														  + "</html>";
 	
 	private static final String MINUTES_BETWEEN_TOOLTIP = "<html>"
-														+ "This value is used to determine when two positions belong to different"
-														+ "<br>routes. If a vehicle is stationary for a number of minutes greater than</br>"
-														+ "<br>the value inserted here then the two positions are considered to be in</br>"
-														+ "<br>different routes.</br>"
+														+ "This value is used to determine when the stream of FCD should be split in different"
+														+ "<br>trajectories. If a vehicle is stationary for a number of minutes greater than</br>"
+														+ "<br>the value inserted here, then the trajectory is split accordingly.</br>"
 														+ "</html>";
 	
 	private static final String MINIMUM_RECORDING_IN_ROUTE = "<html>"
 															+ "This value is used to determine when a route should be discarded."
-															+ "<br>If a route contains less than this number of recordings/br>"
+															+ "<br>If a trajectory contains less than the specified number of GPS positions"
 															+ "<br>it will be ignored.</br>"
 															+ "</html>";
 	
@@ -67,7 +66,7 @@ public class TrajectoryAssignerNodeDialog extends DefaultNodeSettingsPane {
         this.createNewGroup("Column Selector");
         
     	SettingsModelColumnName colIDSettingModel = TrajectoryAssignerNodeModel.createColIDSettings();
-		DialogComponentColumnNameSelection colIDColumnSelection = new DialogComponentColumnNameSelection(colIDSettingModel, "ID Column", 0, false, true, IntValue.class);
+		DialogComponentColumnNameSelection colIDColumnSelection = new DialogComponentColumnNameSelection(colIDSettingModel, "Vehicle ID Column", 0, false, true, IntValue.class);
 		addDialogComponent(colIDColumnSelection);
         
     	SettingsModelColumnName colTimestampSettingModel = TrajectoryAssignerNodeModel.createColTimestampSettings();
@@ -81,29 +80,29 @@ public class TrajectoryAssignerNodeDialog extends DefaultNodeSettingsPane {
         this.createNewGroup("Configuration");
         
         SettingsModelString routeAssignerMode = TrajectoryAssignerNodeModel.createRouteAssignerSettings();
-        DialogComponentStringSelection routeAssignerSelector = new DialogComponentStringSelection(routeAssignerMode, "Select the route assigner you wish to used:","default");
+        DialogComponentStringSelection routeAssignerSelector = new DialogComponentStringSelection(routeAssignerMode, "Partitioning strategy:","default");
         this.addDialogComponent(routeAssignerSelector);
         
     	SettingsModelString coordinatePairType = TrajectoryAssignerNodeModel.createCoordinatePairTypeSettings();
-		DialogComponentStringSelection pairTypeSelector = new DialogComponentStringSelection(coordinatePairType, "Select the coordinates pair type of the input data:","{lat,lon}","{lon,lat}") ;
+		DialogComponentStringSelection pairTypeSelector = new DialogComponentStringSelection(coordinatePairType, "Coordinate input format:","{lat,lon}","{lon,lat}") ;
 		pairTypeSelector.setToolTipText(PAIR_TYPE_TOOLTIP);
 		coordinatePairType.setEnabled(true);
 		addDialogComponent(pairTypeSelector);	
         
     	SettingsModelBoolean allowSpawnMultipleDays = TrajectoryAssignerNodeModel.createSpawnMultipleDaysSettings();
-		DialogComponentBoolean allowSpawnMultipleDaysSelector = (new DialogComponentBoolean(allowSpawnMultipleDays, "Can a route stretch over multiple days?"));
+		DialogComponentBoolean allowSpawnMultipleDaysSelector = (new DialogComponentBoolean(allowSpawnMultipleDays, "Allow trajectories spanning over multiple days"));
 		allowSpawnMultipleDaysSelector.setToolTipText(ALLOW_SPAWN_MULTIPLE_DAYS);
 		allowSpawnMultipleDays.setEnabled(true);
 		addDialogComponent(allowSpawnMultipleDaysSelector);
         
 		SettingsModelIntegerBounded minutesBetween = TrajectoryAssignerNodeModel.createMaxTimeBetweenSettings();
-		DialogComponentNumberEdit minutesBetweenSelector = new DialogComponentNumberEdit(minutesBetween, "Stationary minutes before new route : ", 10);
+		DialogComponentNumberEdit minutesBetweenSelector = new DialogComponentNumberEdit(minutesBetween, "Minimum amount of minutes on hold to split trajectories: ", 10);
 		minutesBetweenSelector.setToolTipText(MINUTES_BETWEEN_TOOLTIP);
 		minutesBetween.setEnabled(true);
 		addDialogComponent(minutesBetweenSelector);
 		
 		SettingsModelIntegerBounded minimumRecordings = TrajectoryAssignerNodeModel.createMinimumRecordingsSettings();
-		DialogComponentNumberEdit minimumRecordingsSelector = new DialogComponentNumberEdit(minimumRecordings, "Discard routes with less positions than : ", 10);
+		DialogComponentNumberEdit minimumRecordingsSelector = new DialogComponentNumberEdit(minimumRecordings, "Discard trajectories having less points than: ", 10);
 		minimumRecordingsSelector.setToolTipText(MINIMUM_RECORDING_IN_ROUTE);
 		addDialogComponent(minimumRecordingsSelector);
 		

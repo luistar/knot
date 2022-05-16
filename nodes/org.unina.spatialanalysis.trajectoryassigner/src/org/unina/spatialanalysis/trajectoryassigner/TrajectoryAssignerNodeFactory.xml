@@ -4,44 +4,47 @@
     <name>Trajectory Partitioner</name>
     
     <shortDescription>
-        This node takes as input a collection of Floating Car Data from possibly many vehicles and partitions 
-        it into subsets representing each a distinct trajectory.
+        This node takes as input a collection of Floating Car Data (FCD) from possibly many vehicles and partitions 
+        it into subsets, each representing a distinct trajectory.
     </shortDescription>
     
     <fullDescription>
-        <intro>This node takes as input a collection of Floating Car Data from possibly many vehicles and partitions 
-        it into subsets representing each a vehicular trajectory. The node assumes that the input data is sorted
-        by vehicle id.</intro>
+        <intro>This node takes as input a collection of Floating Car Data (FCD) from possibly many vehicles and partitions 
+        it into subsets, each representing a distinct trajectory. The input data must contain at least 
+        one column with a Vehicle ID, one column with a Timestamp, and one column with a GPS Position. The node assumes that the input data is sorted
+        by Vehicle ID.</intro>
         
         
-        <option name="Route Assigner Mode">Select how the positions are broken down into routes. The only option currently supported is
-        default, which consider two subsequent recordings to be on different routes if more time than
-        a customizable threshold has passed.</option>
-        <option name="Coordinate Pair Type">Either {lon, lat} or {lat, lon}, accordingly to the data set format</option>
-		<option name="Over multiple days">If selected a route can consist of multiple days, otherwise two subsequent
-		recordings in two different days will always be considered in two different routes.</option>
-		<option name="Stationary Minutes Threshold">A value in minutes that controls wether two subsequent 
-		recording belong to the same route. If a vehicle hasn't moved for more time
-		than this value then the new position will be considered the seed of a new route and
-		the old one is closed. </option>
-		<option name="Minimum Recordings">A value that determines wether a route is valid or not. Routes
+        <option name="Partitioning strategy">This option allows users to select a trajectory partitioning strategy.
+        Currently, only one option (default) is supported. The default strategy splits the stream of GPS positions from a given vehicles into 
+        different trajectories everytime the vehicle remains stationary for more time than a customizable threshold.</option>
+        <option name="Coordinate Input Format">Either {lon, lat} or {lat, lon}, accordingly to the input format.</option>
+		<option name="Allow trajectories spanning over multiple days">If selected, a trajectory can span over multiple days. Otherwise, two subsequent
+		recordings in two different days will always be assigned to different routes.</option>
+		<option name="Minimum amount of minutes on hold to split trajectories">A value in minutes that controls wether two subsequent 
+		recording belong to the same route. If a vehicle remained stationary for more time
+		than this threshold value, then the next active position will be considered the start of a new trajectory and
+		the previous trajectory is closed. </option>
+		<option name="Discard trajectories having less points than">Routes
 		containing less points than this value will be discarded.</option>
 		       
     </fullDescription>
     
     <ports>
-        <inPort index="0" name="Floating Car Data">A table containing the following
+        <inPort index="0" name="Input Floating Car Data">A table containing the following
         columns:
         	<ul>
-        		<li>id, identifying the position owner.</li>
-        		<li>timestamp, a String containining information about the time of the recording.</li>
-        		<li>location, a String like POINT(coordinate coordinate)</li>
+        		<li>Vehicle ID, identifying the position owner.</li>
+        		<li>Timestamp, a String containining information about the time of the recording.</li>
+        		<li>Geometry, a GPS position in WKT format (e.g.: "POINT(coordinate coordinate)")</li>
         	</ul>
-        	The input table must be sorted by id.
+        	The input table must be sorted by vehicle ID.
         </inPort>
         <!-- possibly more input ports here-->
-        <outPort index="0" name="Matched Routes">The routes described as WKT Linestring.</outPort>
-        <outPort index="1" name="Positions in Routes">The input positions with the added column route_id, identifying the
-        route to which they belong.</outPort>
+        <outPort index="0" name="Trajectories">A data table containing an entry for each identified 
+        Trajectory. Each trajectory is characterized by a Trajectory ID, an initial timestamp, and a geometry objects
+        encoded as a Linestring in WKT format.</outPort>
+        <outPort index="1" name="Input data augmented with a Trajectory ID">The input data augmented with an additional Trajectory ID column, associating each 
+        Floating Car Data with the trajectory it belongs to.</outPort>
     </ports>    
 </knimeNode>
