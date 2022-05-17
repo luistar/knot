@@ -41,7 +41,7 @@ public class MapMatcherNodeDialog extends DefaultNodeSettingsPane {
 			  + "</html>";
 	
 	private static final String OSM_FILE_PICKER_TOOLTIP = "<html>"
-			  + "The path of the file containing the map data."
+			  + "The path of the file containing the OSM map data (.osm file)."
 			  + "</html>";
 	
 	private static final String ROUTE_DECODER_STRATEGY_TOOLTIP = "<html>"
@@ -55,8 +55,8 @@ public class MapMatcherNodeDialog extends DefaultNodeSettingsPane {
 			+ "</html>";
 
 	private static final String INCLUDE_NEVER_VISITED_TOOLTIP = "<html>"
-			  + "This setting informs the node if never visited segments"
-			  + "<br>must be included in the result. This feature is still</br>"
+			  + "If checked, road segments that were never visited by the probe vehicles will be included in the output table."
+			  + "<br>Otherwise, only segments that are visted at least one by a vehicle will be included."
 			  + "</html>";
 	
     @SuppressWarnings("unchecked")
@@ -90,20 +90,20 @@ public class MapMatcherNodeDialog extends DefaultNodeSettingsPane {
         osmPathFilePicker.setToolTipText(OSM_FILE_PICKER_TOOLTIP);;
 		addDialogComponent(osmPathFilePicker);
 		
-		this.createNewGroup("Map Matching Strategy");
+		//this.createNewGroup("Map Matching Strategy");
 		
 		SettingsModelString routeDecoderService = MapMatcherNodeModel.createRouteDecoderServiceSettings();
-		DialogComponentStringSelection routeDecoderServicePicker = new DialogComponentStringSelection(routeDecoderService, "Select one: ", availableRouteDecoderServices);
+		DialogComponentStringSelection routeDecoderServicePicker = new DialogComponentStringSelection(routeDecoderService, "Select a map matching strategy: ", availableRouteDecoderServices);
 		routeDecoderServicePicker.setToolTipText(ROUTE_DECODER_STRATEGY_TOOLTIP);
 		addDialogComponent(routeDecoderServicePicker);
 		
 		SettingsModelString decoderHost = MapMatcherNodeModel.createRouteDecoderHostSettings();
-		DialogComponentString decoderHostField = new DialogComponentString(decoderHost, "Insert the route decoder server: ", true, 40);
+		DialogComponentString decoderHostField = new DialogComponentString(decoderHost, "Insert the routing service endpoint: ", true, 40);
 		decoderHostField.setToolTipText(OSRM_SERVER_TOOLTIP);
 		addDialogComponent(decoderHostField);
 		
 		SettingsModelString coordinatePairType = MapMatcherNodeModel.createCoordinatePairTypeSettings();
-		DialogComponentStringSelection coordinatePairTypePicker = new DialogComponentStringSelection(coordinatePairType, "Select one:",coordinatePairTypes);
+		DialogComponentStringSelection coordinatePairTypePicker = new DialogComponentStringSelection(coordinatePairType, "Coordinate input format:",coordinatePairTypes);
 		coordinatePairTypePicker.setToolTipText(PAIR_TYPE_TOOLTIP);
 		addDialogComponent(coordinatePairTypePicker);
 		
@@ -123,9 +123,10 @@ public class MapMatcherNodeDialog extends DefaultNodeSettingsPane {
 		});
 		
 		
-		this.createNewGroup("Map Decoding Strategy");
+		//this.createNewGroup("Map Decoding Strategy");
+		
 		SettingsModelBoolean includeNeverVisited = MapMatcherNodeModel.createIncludeNeverVisitedSetting();
-		DialogComponentBoolean includeNeverVisitedPicker = new DialogComponentBoolean(includeNeverVisited, "(Experimental Feature) Add never visited segments to the result table: ");
+		DialogComponentBoolean includeNeverVisitedPicker = new DialogComponentBoolean(includeNeverVisited, "Include road segments that were never visited to the output table: ");
 		includeNeverVisitedPicker.setToolTipText(INCLUDE_NEVER_VISITED_TOOLTIP);
 		addDialogComponent(includeNeverVisitedPicker);
     }
