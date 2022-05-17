@@ -8,6 +8,7 @@ import javax.swing.event.ChangeListener;
 
 import org.knime.core.data.IntValue;
 import org.knime.core.data.StringValue;
+import org.knime.core.data.LongValue;
 import org.knime.core.node.defaultnodesettings.DefaultNodeSettingsPane;
 import org.knime.core.node.defaultnodesettings.DialogComponentColumnNameSelection;
 import org.knime.core.node.defaultnodesettings.DialogComponentNumberEdit;
@@ -70,7 +71,7 @@ public class RouteCalculatorNodeDialog extends DefaultNodeSettingsPane {
 		addDialogComponent(colownerIDColumnSelection);
 
         SettingsModelColumnName colRouteIDColSettingModel = RouteCalculatorNodeModel.createColRouteIDSettings();
-		DialogComponentColumnNameSelection colRouteIDColumnSelection = new DialogComponentColumnNameSelection(colRouteIDColSettingModel, "Trajectory ID Column", 0, false, true, IntValue.class);
+		DialogComponentColumnNameSelection colRouteIDColumnSelection = new DialogComponentColumnNameSelection(colRouteIDColSettingModel, "Trajectory ID Column", 0, false, true, LongValue.class);
 		addDialogComponent(colRouteIDColumnSelection);
 		
     	SettingsModelColumnName colTimestampSettingModel = RouteCalculatorNodeModel.createColTimestampSettings();
