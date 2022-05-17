@@ -23,17 +23,17 @@ public class RouteGridAnalyzerNodeDialog extends DefaultNodeSettingsPane {
         this.createNewGroup("Column Selector");
 
     	SettingsModelColumnName colIDColSettingModel = RouteGridAnalyzerNodeModel.createColIDSettings();
-		DialogComponentColumnNameSelection colIDColumnSelection = new DialogComponentColumnNameSelection(colIDColSettingModel, "ID Column", 0, false, true, IntValue.class);
+		DialogComponentColumnNameSelection colIDColumnSelection = new DialogComponentColumnNameSelection(colIDColSettingModel, "Vehicle ID Column", 0, false, true, IntValue.class);
 		addDialogComponent(colIDColumnSelection);
         
 		SettingsModelColumnName beginAtColSettingModel = RouteGridAnalyzerNodeModel.createColBeginAtSettings();
 		DialogComponentColumnNameSelection beginAtColumnSelection = new DialogComponentColumnNameSelection(
-				beginAtColSettingModel, "Begin At Column", 0, false, true, DateAndTimeValue.class);
+				beginAtColSettingModel, "Initial Timestamp Column", 0, false, true, DateAndTimeValue.class);
 		addDialogComponent(beginAtColumnSelection); 
         
 		SettingsModelColumnName endAtColSettingModel = RouteGridAnalyzerNodeModel.createColEndAtSettings();
 		DialogComponentColumnNameSelection endAtColumnSelection = new DialogComponentColumnNameSelection(
-				endAtColSettingModel, "End At Column", 0, false, true, DateAndTimeValue.class);
+				endAtColSettingModel, "Final Timestamp Column", 0, false, true, DateAndTimeValue.class);
 		addDialogComponent(endAtColumnSelection);
 		
 		SettingsModelColumnName geomtryColSettingModel = RouteGridAnalyzerNodeModel.createColGeometrySettings();
@@ -44,19 +44,19 @@ public class RouteGridAnalyzerNodeDialog extends DefaultNodeSettingsPane {
         this.createNewGroup("Configuration");
         
 		SettingsModelString minLat = RouteGridAnalyzerNodeModel.createMinLatSetting();
-		addDialogComponent(new DialogComponentString(minLat, "Minimum Latitude: ", true, 20));
+		addDialogComponent(new DialogComponentString(minLat, "Minimum Y: ", true, 20));
 		SettingsModelString maxLat = RouteGridAnalyzerNodeModel.createMaxLatSetting();
-		addDialogComponent(new DialogComponentString(maxLat, "Maximum Latitude: ", true, 20));
+		addDialogComponent(new DialogComponentString(maxLat, "Maximum Y: ", true, 20));
 		SettingsModelString minLon = RouteGridAnalyzerNodeModel.createMinLonSetting();
-		addDialogComponent(new DialogComponentString(minLon, "Minimum Longitude: ", true, 20));
+		addDialogComponent(new DialogComponentString(minLon, "Minimum X: ", true, 20));
 		SettingsModelString maxLon = RouteGridAnalyzerNodeModel.createMaxLonSetting();
-		addDialogComponent(new DialogComponentString(maxLon, "Maximum Longitude: ", true, 20));
+		addDialogComponent(new DialogComponentString(maxLon, "Maximum X: ", true, 20));
 		SettingsModelIntegerBounded numberRows = RouteGridAnalyzerNodeModel.createNumberRowsSetting();
-		addDialogComponent(new DialogComponentNumber(numberRows, "Number of grid's rows : ", 1));
+		addDialogComponent(new DialogComponentNumber(numberRows, "Number of grid rows: ", 1));
 		SettingsModelIntegerBounded numberColumns = RouteGridAnalyzerNodeModel.createNumberColumnsSetting();
-		addDialogComponent(new DialogComponentNumber(numberColumns, "Number of grids's columns : ", 1));
+		addDialogComponent(new DialogComponentNumber(numberColumns, "Number of grids columns: ", 1));
 		SettingsModelIntegerBounded minutesBetween = RouteGridAnalyzerNodeModel.createMinutesSetting();
-		addDialogComponent(new DialogComponentNumber(minutesBetween, "Minimum number of minutes between distinct visits: ", 0));
+		addDialogComponent(new DialogComponentNumber(minutesBetween, "Minimum number of minutes between distinct visits from the same vehicle: ", 0));
     }
 }
 

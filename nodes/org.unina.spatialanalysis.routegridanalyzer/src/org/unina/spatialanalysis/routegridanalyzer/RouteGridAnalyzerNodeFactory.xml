@@ -17,28 +17,27 @@
         by day.
         </intro>
 
-        <option name="Minimum Latitude">The minimum Latitude of the grid.</option>
-	    <option name="Maximum Latitude">The maximum Latitude of the grid.</option>
-        <option name="Minimum Longitude">The minimum Longitude of the grid.</option>
-		<option name="Minimum Longitude">The minimum Longitude of the grid.</option>
-        <option name="Maximum Longitude">The maximum Longitude of the grid.</option>
-        <option name="Number of Rows">The number of Rows of the grid.</option>		        
-        <option name="Number of columns">The number of Columns of the grid.</option>
-        <option name="Minimum time between visits">The number of minutes between to valid visits.</option>
+        <option name="Min Y">The minimum Latitude of the grid.</option>
+	    <option name="Max Y">The maximum Latitude of the grid.</option>
+        <option name="Min X">The minimum Longitude of the grid.</option>
+        <option name="Max X">The maximum Longitude of the grid.</option>
+        <option name="Number of rows">The number of rows of the grid.</option>		        
+        <option name="Number of columns">The number of columns of the grid.</option>
+        <option name="Minimum time between visits">The minimum number of minutes for two subsequent visits by the same vehicle to be considered distinct.</option>
     </fullDescription>
     
     <ports>
         <inPort index="0" name="Route Steps">The input data must contain the following information:
 			<ul>
-        		<li>owner_id, an integer representing the route step owner.</li>
-        		<li>begin_at, a LocalDateTime containing information on the moment at which the route step began.</li>
-        		<li>end_at, a LocalDateTime containing information on the moment at which the route step finished</li>
-        		<li>the_geom, a String representation of a route formatted as WKT Linestring</li>
+        		<li>an integer representing the vehicle id.</li>
+        		<li>a LocalDateTime containing information on the moment at which the traversal of the road segment began.</li>
+        		<li>a LocalDateTime containing information on the moment at which the traversal of the road segment ended.</li>
+        		<li>a geometry object representing the road segment, encoded as a WKT Linestring</li>
         	</ul>
         </inPort>
-        <outPort index="0" name="For Day">Information on how often a grid cell was visited broken down by day
-        and by time slow within a day.</outPort>
-        <outPort index="1" name="For Whole Data Set">Information on how often a grid cell was visited.</outPort>
+        <outPort index="0" name="Grid Coverage Data By Day">Information on how often a grid cell was visited, broken down by day
+        and by time slots within a day.</outPort>
+        <outPort index="1" name="Grid Coverage Data">Information on how often a grid cell was visited, aggregate over the entire timespan of the provided data.</outPort>
     </ports>    
    
 </knimeNode>
