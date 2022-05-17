@@ -5,7 +5,7 @@ Bundle-SymbolicName: org.unina.spatialanalysis.trajectoryassigner;singleton:=tru
 Bundle-Version: 1.0.0.qualifier
 Bundle-ClassPath: trajectoryassigner.jar
 Bundle-Activator: org.unina.spatialanalysis.trajectoryassigner.TrajectoryAssignerNodePlugin
-Bundle-Vendor: Sinogrante Principe
+Bundle-Vendor: KNOT: KNime mObility Toolkit
 Require-Bundle: org.eclipse.core.runtime,
  org.knime.workbench.core,
  org.knime.workbench.repository,

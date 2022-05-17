@@ -8,7 +8,7 @@ Bundle-ClassPath: routecalculator.jar,
  lib/okhttp-3.9.0.jar,
  lib/okio-1.13.0.jar
 Bundle-Activator: org.unina.spatialanalysis.routecalculator.RouteCalculatorNodePlugin
-Bundle-Vendor: Sinogrante
+Bundle-Vendor: KNOT: KNime mObility Toolkit
 Require-Bundle: org.eclipse.core.runtime,
  org.knime.workbench.core,
  org.knime.workbench.repository,
