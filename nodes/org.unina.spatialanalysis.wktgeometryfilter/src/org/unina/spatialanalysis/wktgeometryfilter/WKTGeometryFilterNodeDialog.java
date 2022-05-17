@@ -54,8 +54,8 @@ public class WKTGeometryFilterNodeDialog extends DefaultNodeSettingsPane {
 	// private static final NodeLogger LOGGER = NodeLogger.getLogger(WKTGeometryFilterNodeDialog.class);
 	
 	private static final String PAIR_TYPE_TOOLTIP = "<html>"
-			  + "This setting informs the node about the type of points present"
-			  + "<br>in the input data.</br>"
+			  + "This setting is used to specify the coordinate input format to be used."
+			  + "<br>Both (lat, lon) and (lon, lat) formats are supported</br>"
 			  + "</html>";
 	
 	/**
@@ -80,29 +80,30 @@ public class WKTGeometryFilterNodeDialog extends DefaultNodeSettingsPane {
 		coordinatePairType.setEnabled(true);
 		addDialogComponent(pairTypeSelector);	
 		
-		this.createNewGroup("Coordinate");
+		this.createNewGroup("Bounding Box Coordinates");
 		
 		// PUNTO IN ALTO A SINISTRA X
 		SettingsModelDouble topLeftLon = WKTGeometryFilterNodeModel.createTopLeftCornerLonModel();
-		DialogComponentNumber topLeftLonSelector = new DialogComponentNumber(topLeftLon, "Minimum Longitude", 1, 12);
+		DialogComponentNumber topLeftLonSelector = new DialogComponentNumber(topLeftLon, "Min Y", 1, 12);
 		addDialogComponent(topLeftLonSelector);
 
 		// PUNTO IN ALTO A SINISTRA Y
 		SettingsModelDouble topLeftLat = WKTGeometryFilterNodeModel.createTopLeftCornerLatModel();
-		DialogComponentNumber topLeftLatSelector = new DialogComponentNumber(topLeftLat, "Maximum Latitude", 1, 12);
+		DialogComponentNumber topLeftLatSelector = new DialogComponentNumber(topLeftLat, "Max Y", 1, 12);
 		addDialogComponent(topLeftLatSelector);
-
-		// PUNTO IN BASSO A DESTRA X
-		SettingsModelDouble bottomRightLon = WKTGeometryFilterNodeModel.createBottomRightCornerLonModel();
-		DialogComponentNumber bottomRightLonSelector = new DialogComponentNumber(bottomRightLon, "Maximum Longitude", 1, 12);
-		addDialogComponent(bottomRightLonSelector);
 
 		// PUNTO IN BASSOA DESTRA Y
 		SettingsModelDouble bottomRightLat = WKTGeometryFilterNodeModel.createBottomRightCornerLatModel();
-		DialogComponentNumber bottomRightLatSelector = new DialogComponentNumber(bottomRightLat, "Minimum Latitude", 1, 12);
+		DialogComponentNumber bottomRightLatSelector = new DialogComponentNumber(bottomRightLat, "Min X", 1, 12);
 		addDialogComponent(bottomRightLatSelector);
+		
+		// PUNTO IN BASSO A DESTRA X
+		SettingsModelDouble bottomRightLon = WKTGeometryFilterNodeModel.createBottomRightCornerLonModel();
+		DialogComponentNumber bottomRightLonSelector = new DialogComponentNumber(bottomRightLon, "Max X", 1, 12);
+		addDialogComponent(bottomRightLonSelector);
 
-		DialogComponentButton button = new DialogComponentButton("Open Map");
+
+		DialogComponentButton button = new DialogComponentButton("Select Bounding Box From Map");
 		button.addActionListener(e -> createWindow(topLeftLon, topLeftLat, bottomRightLon, bottomRightLat));
 		addDialogComponent(button);
 
@@ -149,10 +150,10 @@ public class WKTGeometryFilterNodeDialog extends DefaultNodeSettingsPane {
 		final JFrame frame = new JFrame();
 		frame.setLayout(new BorderLayout());
 
-		JLabel jLabel = new JLabel("Use left mouse button to pan, mouse wheel to zoom and right mouse to select");
+		JLabel jLabel = new JLabel("Click and drag with left mouse button to pan, use the mouse wheel to zoom in/out, and click and drag the right mouse button to draw a bounding box");
 		jLabel.setFont(new Font("Serif", Font.PLAIN, 14));
 
-		JButton button = new JButton("Save and close");
+		JButton button = new JButton("Save bounding box and close");
 		
 		frame.add(jLabel, BorderLayout.NORTH);
 		frame.add(button, BorderLayout.SOUTH);
