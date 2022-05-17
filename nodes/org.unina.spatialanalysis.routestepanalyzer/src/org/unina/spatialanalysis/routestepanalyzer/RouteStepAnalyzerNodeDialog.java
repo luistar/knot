@@ -26,8 +26,8 @@ import org.knime.core.node.defaultnodesettings.SettingsModelIntegerBounded;
 public class RouteStepAnalyzerNodeDialog extends DefaultNodeSettingsPane {
 
 	private static final String MIN_TIME_TOOLTIP = "<html>"
-			+ "This value (seconds) is used to determine whether two subsequent visits to the same"
-			+ "<br>segment should be considered as distinct.</br>"
+			+ "This value (in seconds) is used to determine whether two subsequent visits to the same"
+			+ "<br>road segment by the same vehicle should be considered as distinct.</br>"
 			+ "<br>Visits that are less than this time apart from the last valid visit will be discarded.</br>"
 			+ "</html>";
 	/**
@@ -43,25 +43,25 @@ public class RouteStepAnalyzerNodeDialog extends DefaultNodeSettingsPane {
         this.createNewGroup("Column Selector");
 
     	SettingsModelColumnName colIDColSettingModel = RouteStepAnalyzerNodeModel.createColIDSettings();
-		DialogComponentColumnNameSelection colIDColumnSelection = new DialogComponentColumnNameSelection(colIDColSettingModel, "ID Column", 0, false, true, IntValue.class);
+		DialogComponentColumnNameSelection colIDColumnSelection = new DialogComponentColumnNameSelection(colIDColSettingModel, "Vehicle ID Column", 0, false, true, IntValue.class);
 		addDialogComponent(colIDColumnSelection);
         
 		SettingsModelColumnName beginAtColSettingModel = RouteStepAnalyzerNodeModel.createColBeginAtSettings();
 		DialogComponentColumnNameSelection beginAtColumnSelection = new DialogComponentColumnNameSelection(
-				beginAtColSettingModel, "Begin At Column", 0, false, true, DateAndTimeValue.class);
+				beginAtColSettingModel, "Start Visit Timestamp Column", 0, false, true, DateAndTimeValue.class);
 		addDialogComponent(beginAtColumnSelection);
 
 		SettingsModelColumnName endAtColSettingModel = RouteStepAnalyzerNodeModel.createColEndAtSettings();
 		DialogComponentColumnNameSelection endAtColumnSelection = new DialogComponentColumnNameSelection(
-				endAtColSettingModel, "End At Column", 0, false, true, DateAndTimeValue.class);
+				endAtColSettingModel, "End Visit Timestamp Column", 0, false, true, DateAndTimeValue.class);
 		addDialogComponent(endAtColumnSelection);
 
     	SettingsModelColumnName originIDColSettingModel = RouteStepAnalyzerNodeModel.createColOriginIDSettings();
-		DialogComponentColumnNameSelection originIDColumnSelection = new DialogComponentColumnNameSelection(originIDColSettingModel, "Origin ID Column", 0, false, true, IntValue.class);
+		DialogComponentColumnNameSelection originIDColumnSelection = new DialogComponentColumnNameSelection(originIDColSettingModel, "Origin OSM Node ID Column", 0, false, true, IntValue.class);
 		addDialogComponent(originIDColumnSelection);
 		
     	SettingsModelColumnName destIDColSettingModel = RouteStepAnalyzerNodeModel.createColDestIDSettings();
-		DialogComponentColumnNameSelection destIDColumnSelection = new DialogComponentColumnNameSelection(destIDColSettingModel, "Destionation ID Column", 0, false, true, IntValue.class);
+		DialogComponentColumnNameSelection destIDColumnSelection = new DialogComponentColumnNameSelection(destIDColSettingModel, "Destionation OSM Node ID Column", 0, false, true, IntValue.class);
 		addDialogComponent(destIDColumnSelection);
 		
     	SettingsModelColumnName tagsColSettingModel = RouteStepAnalyzerNodeModel.createColTagsSettings();
@@ -76,7 +76,7 @@ public class RouteStepAnalyzerNodeDialog extends DefaultNodeSettingsPane {
         this.createNewGroup("Configuration");
 		
 		SettingsModelIntegerBounded minTimeBetween = RouteStepAnalyzerNodeModel.createMinTimeSettings();
-		DialogComponentNumberEdit minTimeSelector = new DialogComponentNumberEdit(minTimeBetween, "Minimum number of seconds between distinct visits: ", 10);
+		DialogComponentNumberEdit minTimeSelector = new DialogComponentNumberEdit(minTimeBetween, "Minimum number of seconds between distinct visits for the same vehicle: ", 10);
 		minTimeSelector.setToolTipText(MIN_TIME_TOOLTIP);
 		minTimeBetween.setEnabled(true);
 		addDialogComponent(minTimeSelector);

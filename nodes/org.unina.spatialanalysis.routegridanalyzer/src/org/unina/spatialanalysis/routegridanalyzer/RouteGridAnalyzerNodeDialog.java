@@ -28,12 +28,12 @@ public class RouteGridAnalyzerNodeDialog extends DefaultNodeSettingsPane {
         
 		SettingsModelColumnName beginAtColSettingModel = RouteGridAnalyzerNodeModel.createColBeginAtSettings();
 		DialogComponentColumnNameSelection beginAtColumnSelection = new DialogComponentColumnNameSelection(
-				beginAtColSettingModel, "Initial Timestamp Column", 0, false, true, DateAndTimeValue.class);
+				beginAtColSettingModel, "Start Visit Timestamp Column", 0, false, true, DateAndTimeValue.class);
 		addDialogComponent(beginAtColumnSelection); 
         
 		SettingsModelColumnName endAtColSettingModel = RouteGridAnalyzerNodeModel.createColEndAtSettings();
 		DialogComponentColumnNameSelection endAtColumnSelection = new DialogComponentColumnNameSelection(
-				endAtColSettingModel, "Final Timestamp Column", 0, false, true, DateAndTimeValue.class);
+				endAtColSettingModel, "End Visit Timestamp Column", 0, false, true, DateAndTimeValue.class);
 		addDialogComponent(endAtColumnSelection);
 		
 		SettingsModelColumnName geomtryColSettingModel = RouteGridAnalyzerNodeModel.createColGeometrySettings();
