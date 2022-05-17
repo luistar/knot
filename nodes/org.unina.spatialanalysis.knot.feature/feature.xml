@@ -3,7 +3,7 @@
       id="org.unina.spatialanalysis.knot.feature"
       label="KNOT - KNime mObility Toolkit"
       version="1.0.0.qualifier"
-      provider-name="Università degli Studi di Napoli Federico II - UNINA">
+      provider-name="KNOT: KNime mObility Toolkit">
 
    <description url="http://www.example.com/description">
       KNOT is a KNIME plugin helping you visually compose intuitive, reproducible, and easy to distribute Knowledge Discovery pipelines for massive mobility datasets including — but not limited to — Floating Car Data (FCD) ones.
