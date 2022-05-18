@@ -150,15 +150,15 @@ public class MapMatcherNodeModel extends NodeModel {
 	
 	
 	static SettingsModelColumnName createColIDSettings()  {
-		SettingsModelColumnName geometryColSettingModel = new SettingsModelColumnName(ID_COL, null);
-		geometryColSettingModel.setEnabled(true);
-		return geometryColSettingModel;
+		SettingsModelColumnName idColSettingModel = new SettingsModelColumnName(ID_COL, null);
+		idColSettingModel.setEnabled(true);
+		return idColSettingModel;
 	}
 	
 	static SettingsModelColumnName createColBeginAtSettings()  {
-		SettingsModelColumnName geometryColSettingModel = new SettingsModelColumnName(BEGIN_AT_COL, null);
-		geometryColSettingModel.setEnabled(true);
-		return geometryColSettingModel;
+		SettingsModelColumnName beginAtColSettingModel = new SettingsModelColumnName(BEGIN_AT_COL, null);
+		beginAtColSettingModel.setEnabled(true);
+		return beginAtColSettingModel;
 	}
 	
 	static SettingsModelColumnName createColGeometrySettings()  {
@@ -203,14 +203,7 @@ public class MapMatcherNodeModel extends NodeModel {
 		 */
 		DataTableSpec routeStepsSpecs = createOutputForRouteSteps();
 		BufferedDataContainer routeStepsContainer = exec.createDataContainer(routeStepsSpecs);
-		
-		CloseableRowIterator rowIterator = inputTable.iterator();
-		
-		int currentRowCounter = 0;
-		int idIndex = -1;
-		int beginAtIndex = -1;
-		int theGeomIndex =-1;
-				
+								
 		OsmDataManager mapData = null;
 		exec.setMessage("Parsing Map Data...");
 		File osmFile = new File(m_osmDataPath.getStringValue());
@@ -228,6 +221,10 @@ public class MapMatcherNodeModel extends NodeModel {
 		/*
 		 * Getting the index of the relevant columns (their presence is ensured by the configure method).
 		 */
+		int idIndex = -1;
+		int beginAtIndex = -1;
+		int theGeomIndex =-1;
+		
 		String colIDName = m_colIDSettings.getColumnName();
 		String colBeginAtName = m_colBeginAtSettings.getColumnName();
 		String colGeometryName = m_colGeometrySettings.getColumnName();	
@@ -254,7 +251,10 @@ public class MapMatcherNodeModel extends NodeModel {
 		int routesMissedForMatchingTraceError = 0;
 		int routesMissedForIOError = 0;
 		
-		
+		CloseableRowIterator rowIterator = inputTable.iterator();
+
+		int currentRowCounter = 0;
+
 		while(rowIterator.hasNext()) {
 			DataRow currentRow = rowIterator.next(); 
 			currentRowCounter++;
@@ -372,6 +372,11 @@ public class MapMatcherNodeModel extends NodeModel {
 		String colIDName = m_colIDSettings.getColumnName();
 		String colBeginAtName = m_colBeginAtSettings.getColumnName();
 		String colGeometryName = m_colGeometrySettings.getColumnName();				
+		
+		if((colIDName == null || colBeginAtName == null || colGeometryName == null)) {
+			LOGGER.info(LogStringMaker.logError("All columns must be selected in the configuration dialog"));
+			throw new InvalidSettingsException("All columns must be selected in the configuration dialog");
+		}
 		
 		if(!(inSpecs[0].containsName(colIDName) && inSpecs[0].containsName(colBeginAtName) && inSpecs[0].containsName(colGeometryName))) {
 			if(!(inSpecs[0].getColumnSpec(colIDName).getType().getCellClass().equals(IntCell.TYPE) &&
