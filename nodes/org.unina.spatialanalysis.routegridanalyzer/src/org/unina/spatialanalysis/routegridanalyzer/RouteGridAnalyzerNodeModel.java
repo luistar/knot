@@ -37,7 +37,6 @@ import org.knime.core.node.NodeSettingsWO;
 import org.knime.core.node.defaultnodesettings.SettingsModelColumnName;
 import org.knime.core.node.defaultnodesettings.SettingsModelIntegerBounded;
 import org.knime.core.node.defaultnodesettings.SettingsModelString;
-import org.unina.spatialanalysis.routegridanalyzer.RouteGridAnalyzerNodeModel;
 import org.unina.spatialanalysis.routegridanalyzer.entity.TimeSlot;
 import org.unina.spatialanalysis.routegridanalyzer.entity.dataentries.DetailedDataEntry;
 import org.unina.spatialanalysis.routegridanalyzer.entity.dataentries.SimpleDataEntry;
@@ -498,12 +497,17 @@ public class RouteGridAnalyzerNodeModel extends NodeModel {
 			}catch(NumberFormatException e) {
 				throw new InvalidSettingsException("The inserted coordinates are not numbers!");
 			}
-			
+
 			String colIDName = m_colIDSettings.getColumnName();
 			String colBeginAtName = m_colBeginAtSettings.getColumnName();
 			String colEndAtName = m_colEndAtSettings.getColumnName();
 			String colGeometryName = m_colGeometrySettings.getColumnName();
-					
+
+			if (colIDName == null || colBeginAtName == null || colEndAtName == null || colGeometryName == null) {
+				LOGGER.info("All columns must be selected in the configuration dialog");
+				throw new InvalidSettingsException("All columns must be selected in the configuration dialog");
+			}
+
 			if(!(inSpecs[0].containsName(colIDName) && 
 					 inSpecs[0].containsName(colGeometryName) && 
 					 inSpecs[0].containsName(colBeginAtName) && 

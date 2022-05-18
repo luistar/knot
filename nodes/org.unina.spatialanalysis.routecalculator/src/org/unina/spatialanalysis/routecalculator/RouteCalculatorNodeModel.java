@@ -575,6 +575,11 @@ public class RouteCalculatorNodeModel extends NodeModel {
 		String colTimestampName = m_colTimestampSettings.getColumnName();
 		String colGeometryName = m_colGeometrySettings.getColumnName();
 
+		if (colOwnerIDName == null || colRouteIDName == null || colTimestampName == null || colGeometryName == null) {
+			LOGGER.info("All columns must be selected in the configuration dialog");
+			throw new InvalidSettingsException("All columns must be selected in the configuration dialog");
+		}
+
 		/*
 		 * Check if the input table contains all that we need.
 		 */

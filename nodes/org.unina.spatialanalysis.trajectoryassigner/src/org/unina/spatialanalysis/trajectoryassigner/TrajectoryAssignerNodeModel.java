@@ -484,6 +484,11 @@ public class TrajectoryAssignerNodeModel extends NodeModel {
 		String colTimestampName = m_colTimestampSettings.getColumnName();
 		String colGeometryName = m_colGeometrySettings.getColumnName();	
 
+		if(colIDName == null || colTimestampName == null || colGeometryName == null) {
+			LOGGER.info(LogStringMaker.logError("All columns must be selected in the configuration dialog"));
+			throw new InvalidSettingsException("All columns must be selected in the configuration dialog");
+		}
+
 		if(!(inSpecs[0].containsName(colIDName) && inSpecs[0].containsName(colTimestampName) && inSpecs[0].containsName(colGeometryName))) {
 			if(!(inSpecs[0].getColumnSpec(colIDName).getType().getCellClass().equals(IntCell.TYPE) &&
 					inSpecs[0].getColumnSpec(colTimestampName).getType().getCellClass().equals(StringCell.TYPE) && 
