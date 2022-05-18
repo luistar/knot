@@ -20,5 +20,8 @@ target
 .classpath
 .project
 
+nodes/org.unina.spatialanalysis.knot.update/features
+nodes/org.unina.spatialanalysis.knot.update/plugins
+
 #KNIME
 runtime-KNIME

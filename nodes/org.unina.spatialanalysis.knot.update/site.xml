@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+   <feature url="features/org.unina.spatialanalysis.knot.feature_1.0.0.202205181723.jar" id="org.unina.spatialanalysis.knot.feature" version="1.0.0.202205181723">
+      <category name="knot"/>
+   </feature>
+   <category-def name="knot" label="knot"/>
+</site>
