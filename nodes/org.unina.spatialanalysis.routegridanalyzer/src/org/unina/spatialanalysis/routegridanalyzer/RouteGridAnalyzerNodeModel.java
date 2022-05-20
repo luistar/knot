@@ -35,6 +35,7 @@ import org.knime.core.node.NodeModel;
 import org.knime.core.node.NodeSettingsRO;
 import org.knime.core.node.NodeSettingsWO;
 import org.knime.core.node.defaultnodesettings.SettingsModelColumnName;
+import org.knime.core.node.defaultnodesettings.SettingsModelDouble;
 import org.knime.core.node.defaultnodesettings.SettingsModelIntegerBounded;
 import org.knime.core.node.defaultnodesettings.SettingsModelString;
 import org.unina.spatialanalysis.routegridanalyzer.entity.TimeSlot;
@@ -71,19 +72,23 @@ public class RouteGridAnalyzerNodeModel extends NodeModel {
 
 		private static final String MIN_LAT  = "m_min_lat";
 		
-		private static final String DEFAULT_MIN_LAT ="41.7775";
+		private static final Double DEFAULT_MIN_LAT = 41.7775;
 		
 		private static final String MAX_LAT  = "m_max_lat";
 		
-		private static final String DEFAULT_MAX_LAT ="41.9962";
+		private static final Double DEFAULT_MAX_LAT = 41.9962;
 		
 		private static final String MIN_LON  = "m_min_lon";
 		
-		private static final String DEFAULT_MIN_LON ="12.3473";
+		private static final Double DEFAULT_MIN_LON = 12.3473;
 		
 		private static final String MAX_LON  = "m_max_lot";
 		
-		private static final String DEFAULT_MAX_LON ="12.6508";
+		private static final Double DEFAULT_MAX_LON = 12.6508;
+		
+		private static final String PAIR_TYPE_FORMAT = "m_pair_type";
+		
+		private static final String DEFAULT_PAIR_TYPE_FORMAT = "{lat,lon}";
 		
 		private static final String N_ROWS = "m_n_rows";
 		
@@ -105,14 +110,16 @@ public class RouteGridAnalyzerNodeModel extends NodeModel {
 
 		private final SettingsModelColumnName m_colGeometrySettings = createColGeometrySettings();
 
-		private final SettingsModelString m_minLat = createMinLatSetting();
+		private final SettingsModelDouble m_minLat = createMinLatSetting();
 		
-		private final SettingsModelString m_maxLat = createMaxLatSetting();
+		private final SettingsModelDouble m_maxLat = createMaxLatSetting();
 		
-		private final SettingsModelString m_minLon = createMinLonSetting();
+		private final SettingsModelDouble m_minLon = createMinLonSetting();
 
-		private final SettingsModelString m_maxLon = createMaxLonSetting();
+		private final SettingsModelDouble m_maxLon = createMaxLonSetting();
 
+		private final SettingsModelString m_pairTypeSettings = createCoordinatePairTypeSettings();
+		
 		private final SettingsModelIntegerBounded m_numberOfRows = createNumberRowsSetting();
 		
 		private final SettingsModelIntegerBounded m_numberOfColumns = createNumberColumnsSetting();
@@ -152,20 +159,26 @@ public class RouteGridAnalyzerNodeModel extends NodeModel {
 		 * @return a new SettingsModelString with the key for the number format String
 		 */
 		
-		static SettingsModelString createMinLatSetting() {
-			return new SettingsModelString(MIN_LAT, DEFAULT_MIN_LAT);
+		static SettingsModelDouble createMinLatSetting() {
+			return new SettingsModelDouble(MIN_LAT, DEFAULT_MIN_LAT);
 		}
 		
-		static SettingsModelString createMaxLatSetting() {
-			return new SettingsModelString(MAX_LAT, DEFAULT_MAX_LAT);
+		static SettingsModelDouble createMaxLatSetting() {
+			return new SettingsModelDouble(MAX_LAT, DEFAULT_MAX_LAT);
 		}
 		
-		static SettingsModelString createMinLonSetting() {
-			return new SettingsModelString(MIN_LON, DEFAULT_MIN_LON);
+		static SettingsModelDouble createMinLonSetting() {
+			return new SettingsModelDouble(MIN_LON, DEFAULT_MIN_LON);
 		}
 		
-		static SettingsModelString createMaxLonSetting() {
-			return new SettingsModelString(MAX_LON, DEFAULT_MAX_LON);
+		static SettingsModelDouble createMaxLonSetting() {
+			return new SettingsModelDouble(MAX_LON, DEFAULT_MAX_LON);
+		}
+		
+		static SettingsModelString createCoordinatePairTypeSettings() {
+			SettingsModelString coordinatePairTypeSettings = new SettingsModelString(PAIR_TYPE_FORMAT, DEFAULT_PAIR_TYPE_FORMAT);
+			coordinatePairTypeSettings.setEnabled(true);
+			return coordinatePairTypeSettings;
 		}
 		
 		static SettingsModelIntegerBounded createNumberRowsSetting() {
@@ -206,10 +219,10 @@ public class RouteGridAnalyzerNodeModel extends NodeModel {
 			DataTableSpec simpleOutputSpec = createOutputForSimple();
 			BufferedDataContainer simpleContainer = exec.createDataContainer(simpleOutputSpec);
 			
-			double minLat = Double.parseDouble(m_minLat.getStringValue());
-			double maxLat = Double.parseDouble(m_maxLat.getStringValue());
-			double minLon = Double.parseDouble(m_minLon.getStringValue());
-			double maxLon = Double.parseDouble(m_maxLon.getStringValue());
+			Double minLat = m_minLat.getDoubleValue();
+			Double maxLat = m_maxLat.getDoubleValue();
+			Double minLon = m_minLon.getDoubleValue();
+			Double maxLon = m_maxLon.getDoubleValue();
 			
 			int nRows = m_numberOfRows.getIntValue();
 			int nColumns = m_numberOfColumns.getIntValue();
@@ -221,9 +234,6 @@ public class RouteGridAnalyzerNodeModel extends NodeModel {
 			String colEndAtName = m_colEndAtSettings.getColumnName();
 			String colGeometryName = m_colGeometrySettings.getColumnName();
 			
-			CloseableRowIterator rowIterator = inputTable.iterator();
-			
-			int currentRowCounter = 0;
 			int idIndex = -1;
 			int beginAtIndex = -1;
 			int theGeomIndex =-1;
@@ -245,7 +255,11 @@ public class RouteGridAnalyzerNodeModel extends NodeModel {
 			
 			
 			TreeSet<Hit> recordedPositions = new TreeSet<Hit>();
-									
+			
+			CloseableRowIterator rowIterator = inputTable.iterator();
+			
+			int currentRowCounter = 0;
+			
 			/**
 			 * After this iteration the variable recordedPositions contains all the recorded positions ordered by time.
 			 */
@@ -485,15 +499,18 @@ public class RouteGridAnalyzerNodeModel extends NodeModel {
 		protected DataTableSpec[] configure(final DataTableSpec[] inSpecs) throws InvalidSettingsException {
 			
 			try {
-				double minLat = Double.parseDouble(m_minLat.getStringValue());
-				double maxLat = Double.parseDouble(m_maxLat.getStringValue());
-				double minLon = Double.parseDouble(m_minLon.getStringValue());
-				double maxLon = Double.parseDouble(m_maxLon.getStringValue());
+				
+				double minLat = m_minLat.getDoubleValue();
+				double maxLat = m_maxLat.getDoubleValue();
+				double minLon = m_minLon.getDoubleValue();
+				double maxLon = m_maxLon.getDoubleValue();
+				
 				if(minLat>= maxLat) {
 					throw new InvalidSettingsException("The minimum Latitude is bigger or equal than the maximum Latitude!");
 				}else if(minLon>= maxLon) {
 					throw new InvalidSettingsException("The minimum Longitude is bigger or equal than the maximum Longitude!");
-				}				
+				}
+				
 			}catch(NumberFormatException e) {
 				throw new InvalidSettingsException("The inserted coordinates are not numbers!");
 			}
@@ -611,6 +628,8 @@ public class RouteGridAnalyzerNodeModel extends NodeModel {
 			m_maxLat.saveSettingsTo(settings);
 			m_minLon.saveSettingsTo(settings);
 			m_maxLon.saveSettingsTo(settings);
+			m_pairTypeSettings.saveSettingsTo(settings);
+		
 			m_numberOfRows.saveSettingsTo(settings);
 			m_numberOfColumns.saveSettingsTo(settings);
 			m_minutes.saveSettingsTo(settings);
@@ -638,6 +657,8 @@ public class RouteGridAnalyzerNodeModel extends NodeModel {
 			m_maxLat.loadSettingsFrom(settings);
 			m_minLon.loadSettingsFrom(settings);
 			m_maxLon.loadSettingsFrom(settings);
+			m_pairTypeSettings.loadSettingsFrom(settings);
+			
 			m_numberOfRows.loadSettingsFrom(settings);
 			m_numberOfColumns.loadSettingsFrom(settings);
 			m_minutes.loadSettingsFrom(settings);
@@ -664,6 +685,8 @@ public class RouteGridAnalyzerNodeModel extends NodeModel {
 			m_maxLat.validateSettings(settings);
 			m_minLon.validateSettings(settings);
 			m_maxLon.validateSettings(settings);
+			m_pairTypeSettings.validateSettings(settings);
+			
 			m_numberOfRows.validateSettings(settings);
 			m_numberOfColumns.validateSettings(settings);
 			m_minutes.validateSettings(settings);

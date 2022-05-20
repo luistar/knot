@@ -6,7 +6,11 @@ Bundle-Version: 1.0.0.qualifier
 Bundle-ClassPath: routegridanalyzer.jar,
  lib/json-20210307.jar,
  lib/okhttp-3.9.0.jar,
- lib/okio-1.13.0.jar
+ lib/okio-1.13.0.jar,
+ lib/commons-logging-1.2.jar,
+ lib/jxmapviewer2-2.6.jar,
+ lib/sf-2.0.6.jar,
+ lib/sf-wkt-1.0.3.jar
 Bundle-Activator: org.unina.spatialanalysis.routegridanalyzer.RouteGridAnalyzerNodePlugin
 Bundle-Vendor: KNOT: KNime mObility Toolkit
 Require-Bundle: org.eclipse.core.runtime,
