@@ -3,6 +3,7 @@ package org.unina.spatialanalysis.routestepanalyzer;
 import javax.swing.ToolTipManager;
 
 import org.knime.core.data.IntValue;
+import org.knime.core.data.LongValue;
 import org.knime.core.data.StringValue;
 import org.knime.core.data.date.DateAndTimeValue;
 import org.knime.core.node.defaultnodesettings.DefaultNodeSettingsPane;
@@ -57,11 +58,11 @@ public class RouteStepAnalyzerNodeDialog extends DefaultNodeSettingsPane {
 		addDialogComponent(endAtColumnSelection);
 
     	SettingsModelColumnName originIDColSettingModel = RouteStepAnalyzerNodeModel.createColOriginIDSettings();
-		DialogComponentColumnNameSelection originIDColumnSelection = new DialogComponentColumnNameSelection(originIDColSettingModel, "Origin OSM Node ID Column", 0, false, true, IntValue.class);
+		DialogComponentColumnNameSelection originIDColumnSelection = new DialogComponentColumnNameSelection(originIDColSettingModel, "Origin OSM Node ID Column", 0, false, true, LongValue.class);
 		addDialogComponent(originIDColumnSelection);
 		
     	SettingsModelColumnName destIDColSettingModel = RouteStepAnalyzerNodeModel.createColDestIDSettings();
-		DialogComponentColumnNameSelection destIDColumnSelection = new DialogComponentColumnNameSelection(destIDColSettingModel, "Destionation OSM Node ID Column", 0, false, true, IntValue.class);
+		DialogComponentColumnNameSelection destIDColumnSelection = new DialogComponentColumnNameSelection(destIDColSettingModel, "Destionation OSM Node ID Column", 0, false, true, LongValue.class);
 		addDialogComponent(destIDColumnSelection);
 		
     	SettingsModelColumnName tagsColSettingModel = RouteStepAnalyzerNodeModel.createColTagsSettings();
