@@ -163,7 +163,35 @@ public class WKTGeometryFilterNodeModel extends NodeModel {
 		 */
 		super(1, 1);
 	}
-	
+
+	private GeometryEnvelope getBoundingBoxEnvelope() {
+		Double topLeftCornerLon = m_topLeftCornerLonSettings.getDoubleValue();
+		Double topLeftCornerLat = m_topLeftCornerLatSettings.getDoubleValue();
+		
+		Double bottomRightCornerLon = m_bottomRightCornerLonSettings.getDoubleValue();
+		Double bottomRightCornerLat = m_bottomRightCornerLatSettings.getDoubleValue();
+
+		String pairTypeFormat = m_pairTypeSettings.getStringValue();
+
+		GeometryEnvelope boundingBoxEnvelope = new GeometryEnvelope();
+
+		if(pairTypeFormat.equals(DEFAULT_PAIR_TYPE_FORMAT)) { // lat, lon
+			boundingBoxEnvelope.setMinY(topLeftCornerLon);
+			boundingBoxEnvelope.setMaxX(topLeftCornerLat);
+			
+			boundingBoxEnvelope.setMaxY(bottomRightCornerLon);
+			boundingBoxEnvelope.setMinX(bottomRightCornerLat);
+		} else { // lon, lat 
+			boundingBoxEnvelope.setMaxY(topLeftCornerLat);
+			boundingBoxEnvelope.setMinX(topLeftCornerLon);
+			
+			boundingBoxEnvelope.setMinY(bottomRightCornerLat);
+			boundingBoxEnvelope.setMaxX(bottomRightCornerLon);
+		}
+		
+		return boundingBoxEnvelope;
+	}
+
 	/**
 	 * 
 	 * {@inheritDoc}
@@ -227,29 +255,7 @@ public class WKTGeometryFilterNodeModel extends NodeModel {
 		 * calculate the progress of the node, which is displayed as a loading bar under
 		 * the node icon.
 		 */
-		Double topLeftCornerLon = m_topLeftCornerLonSettings.getDoubleValue();
-		Double topLeftCornerLat = m_topLeftCornerLatSettings.getDoubleValue();
-		
-		Double bottomRightCornerLon = m_bottomRightCornerLonSettings.getDoubleValue();
-		Double bottomRightCornerLat = m_bottomRightCornerLatSettings.getDoubleValue();
-
-		String pairTypeFormat = m_pairTypeSettings.getStringValue();
-
-		GeometryEnvelope selectedAreaEnvelope = new GeometryEnvelope();
-
-		if(pairTypeFormat.equals(DEFAULT_PAIR_TYPE_FORMAT)) { // lat, lon
-			selectedAreaEnvelope.setMinY(topLeftCornerLon);
-			selectedAreaEnvelope.setMaxX(topLeftCornerLat);
-			
-			selectedAreaEnvelope.setMaxY(bottomRightCornerLon);
-			selectedAreaEnvelope.setMinX(bottomRightCornerLat);
-		} else { // lon, lat 
-			selectedAreaEnvelope.setMaxY(topLeftCornerLat);
-			selectedAreaEnvelope.setMinX(topLeftCornerLon);
-			
-			selectedAreaEnvelope.setMinY(bottomRightCornerLat);
-			selectedAreaEnvelope.setMaxX(bottomRightCornerLon);
-		}
+		GeometryEnvelope boundingBoxEnvelope = getBoundingBoxEnvelope();
 		
 		int currentRowCounter = 0;
 		
@@ -269,7 +275,7 @@ public class WKTGeometryFilterNodeModel extends NodeModel {
 				GeometryEnvelope rowGeometryEnv = rowGeometry.getEnvelope();
 			
 				// Nel caso i punti escano fuori dal rettangolo ignoro la riga
-				if(selectedAreaEnvelope.contains(rowGeometryEnv)) {
+				if(boundingBoxEnvelope.contains(rowGeometryEnv)) {
 					container.addRowToTable(currentRow);
 				}
 			}

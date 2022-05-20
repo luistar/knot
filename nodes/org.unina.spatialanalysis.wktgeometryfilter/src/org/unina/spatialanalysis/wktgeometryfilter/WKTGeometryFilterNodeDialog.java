@@ -102,7 +102,6 @@ public class WKTGeometryFilterNodeDialog extends DefaultNodeSettingsPane {
 		DialogComponentNumber bottomRightLonSelector = new DialogComponentNumber(bottomRightLon, "Max X", 1, 12);
 		addDialogComponent(bottomRightLonSelector);
 
-
 		DialogComponentButton button = new DialogComponentButton("Select Bounding Box From Map");
 		button.addActionListener(e -> createWindow(topLeftLon, topLeftLat, bottomRightLon, bottomRightLat));
 		addDialogComponent(button);
@@ -167,7 +166,6 @@ public class WKTGeometryFilterNodeDialog extends DefaultNodeSettingsPane {
 			@Override
 			public void propertyChange(PropertyChangeEvent evt) {
 				updateWindowTitle(frame, mapViewer);
-
 			}
 		});
 
