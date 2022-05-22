@@ -541,7 +541,7 @@ public class TrajectoryAssignerNodeModel extends NodeModel {
 	private DataTableSpec createOutputForRoutingNode() {
 		List<DataColumnSpec> newColumnSpecs = new ArrayList<>();
 
-		DataColumnSpecCreator specCreator = new DataColumnSpecCreator("owner_id", IntCell.TYPE);
+		DataColumnSpecCreator specCreator = new DataColumnSpecCreator("vehicle_id", IntCell.TYPE);
 		newColumnSpecs.add(specCreator.createSpec());
 
 		specCreator = new DataColumnSpecCreator("route_id", LongCell.TYPE);
