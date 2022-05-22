@@ -14,7 +14,7 @@
     </fullDescription>
     
     <ports>
-      	<inPort index="0" name="Routes">The input table must have the following columns:
+      	<inPort index="0" name="Map-Matched Trajectories">The input table must have the following columns:
         	<ul>
         		<li>an integer representing the vehicle id.</li>
         		<li>a LocalDateTime containing information on the moment at which the traversal of the road segment began.</li>
