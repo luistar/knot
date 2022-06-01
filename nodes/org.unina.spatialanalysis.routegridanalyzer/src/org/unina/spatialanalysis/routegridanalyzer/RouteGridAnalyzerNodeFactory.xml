@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml>
+<knimeNode icon="./grid-analyzer-16.png" type="Manipulator" xmlns="http://knime.org/node/v2.8" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://knime.org/node/v2.10 http://knime.org/node/v2.10.xsd">
+    <name>Grid Coverage Analyzer</name>
+    
+    <shortDescription>
+        Given a set of map-matched trajectories, splits a geographic area into a grid and computes how often each grid cell is visited.
+    </shortDescription>
+    
+    <fullDescription>
+        <intro>The node allows users to define a custom grid over a desidered geographical area by specifying a bounding box, a number of rows
+        and a number of columns. It then proceeds to compute the number of times each grid cell was visited by one of the agents performing 
+        the input map-matched trajectories. A visit to a grid cell is considered valid if the agent is entering that cell for the first time, 
+        or if the time between the current visit and the previous one is more than a threshold (in minutes), which can be customized 
+        in the input dialog.
+        The node offers two output tables, one considering the whole input data-set and the other grouping the coverage information 
+        by day.
+        </intro>
+
+        <option name="Min Y">The minimum Latitude of the grid.</option>
+	    <option name="Max Y">The maximum Latitude of the grid.</option>
+        <option name="Min X">The minimum Longitude of the grid.</option>
+        <option name="Max X">The maximum Longitude of the grid.</option>
+        <option name="Number of rows">The number of rows of the grid.</option>		        
+        <option name="Number of columns">The number of columns of the grid.</option>
+        <option name="Minimum time between visits">The minimum number of minutes for two subsequent visits by the same vehicle to be considered distinct.</option>
+    </fullDescription>
+    
+    <ports>
+        <inPort index="0" name="Route Steps">The input data must contain the following information:
+			<ul>
+        		<li>an integer representing the vehicle id.</li>
+        		<li>a LocalDateTime containing information on the moment at which the traversal of the road segment began.</li>
+        		<li>a LocalDateTime containing information on the moment at which the traversal of the road segment ended.</li>
+        		<li>a geometry object representing the road segment, encoded as a WKT Linestring</li>
+        	</ul>
+        </inPort>
+        <outPort index="0" name="Grid Coverage Data By Day">Information on how often a grid cell was visited, broken down by day
+        and by time slots within a day.</outPort>
+        <outPort index="1" name="Grid Coverage Data">Information on how often a grid cell was visited, aggregate over the entire timespan of the provided data.</outPort>
+    </ports>    
+   
+</knimeNode>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml>
+<knimeNode icon="./partitioner-16.png" type="Manipulator" xmlns="http://knime.org/node/v2.8" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://knime.org/node/v2.10 http://knime.org/node/v2.10.xsd">
+    <name>Trajectory Partitioner</name>
+    
+    <shortDescription>
+        This node takes as input a collection of Floating Car Data (FCD) from possibly many vehicles and partitions 
+        it into subsets, each representing a distinct trajectory.
+    </shortDescription>
+    
+    <fullDescription>
+        <intro>This node takes as input a collection of Floating Car Data (FCD) from possibly many vehicles and partitions 
+        it into subsets, each representing a distinct trajectory. The input data must contain at least 
+        one column with a Vehicle ID, one column with a Timestamp, and one column with a GPS Position. The node assumes that the input data is sorted
+        by Vehicle ID.</intro>
+        
+        
+        <option name="Partitioning strategy">This option allows users to select a trajectory partitioning strategy.
+        Currently, only one option (default) is supported. The default strategy splits the stream of GPS positions from a given vehicles into 
+        different trajectories everytime the vehicle remains stationary for more time than a customizable threshold.</option>
+        <option name="Coordinate Input Format">Either {lon, lat} or {lat, lon}, accordingly to the input format.</option>
+		<option name="Allow trajectories spanning over multiple days">If selected, a trajectory can span over multiple days. Otherwise, two subsequent
+		recordings in two different days will always be assigned to different routes.</option>
+		<option name="Minimum amount of minutes on hold to split trajectories">A value in minutes that controls wether two subsequent 
+		recording belong to the same route. If a vehicle remained stationary for more time
+		than this threshold value, then the next active position will be considered the start of a new trajectory and
+		the previous trajectory is closed. </option>
+		<option name="Discard trajectories having less points than">Routes
+		containing less points than this value will be discarded.</option>
+		       
+    </fullDescription>
+    
+    <ports>
+        <inPort index="0" name="Input Floating Car Data">A table containing the following
+        columns:
+        	<ul>
+        		<li>Vehicle ID, identifying the position owner.</li>
+        		<li>Timestamp, a String containining information about the time of the recording.</li>
+        		<li>Geometry, a GPS position in WKT format (e.g.: "POINT(coordinate coordinate)")</li>
+        	</ul>
+        	The input table must be sorted by vehicle ID.
+        </inPort>
+        <!-- possibly more input ports here-->
+        <outPort index="0" name="Trajectories">A data table containing an entry for each identified 
+        Trajectory. Each trajectory is characterized by a Trajectory ID, an initial timestamp, and a geometry objects
+        encoded as a Linestring in WKT format.</outPort>
+        <outPort index="1" name="Input data augmented with a Trajectory ID">The input data augmented with an additional Trajectory ID column, associating each 
+        Floating Car Data with the trajectory it belongs to.</outPort>
+    </ports>    
+</knimeNode>

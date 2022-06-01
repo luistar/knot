@@ -1,0 +1,18 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: RouteStepAnalyzer-Node extension for KNIME Workbench
+Bundle-SymbolicName: org.unina.spatialanalysis.routestepanalyzer;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-ClassPath: routestepanalyzer.jar,
+ lib/json-20210307.jar,
+ lib/okhttp-3.9.0.jar,
+ lib/okio-1.13.0.jar
+Bundle-Activator: org.unina.spatialanalysis.routestepanalyzer.RouteStepAnalyzerNodePlugin
+Bundle-Vendor: KNOT: KNime mObility Toolkit
+Require-Bundle: org.eclipse.core.runtime,
+ org.knime.workbench.core,
+ org.knime.workbench.repository,
+ org.knime.base
+Bundle-ActivationPolicy: lazy
+Export-Package: org.unina.spatialanalysis.routestepanalyzer
+Automatic-Module-Name: org.unina.spatialanalysis.routestepanalyzer

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml>
+<knimeNode icon="./segment-coverage-analysis-16.png" type="Manipulator" xmlns="http://knime.org/node/v2.8" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://knime.org/node/v2.10 http://knime.org/node/v2.10.xsd">
+    <name>Segment Coverage Analyzer</name>
+    
+    <shortDescription>
+        This node computes how often and how many times each road segment in the considered OSM map was visited by the input vehicular trajectories.
+    </shortDescription>
+    
+    <fullDescription>
+        <intro>The node takes as input a set of map matcher trajectories, possibly computed by the KNOT Map Matcher node. 
+        The node computes as coverage metrics both the number of visits for each segment, and the average timegap between subsequent visits.
+        </intro>
+    </fullDescription>
+    
+    <ports>
+      	<inPort index="0" name="Map-Matched Trajectories">The input table must have the following columns:
+        	<ul>
+        		<li>an integer representing the vehicle id.</li>
+        		<li>a LocalDateTime containing information on the moment at which the traversal of the road segment began.</li>
+        		<li>a LocalDateTime containing information on the moment at which the traversal of the road segment ended.</li>
+        		<li>origin_id, the OSM id of the origin node of the road segment.</li>
+        		<li>destination_id, the OSM id of the destination node of the road segment.</li>
+        		<li>tags, the OSM tags associated to the ways to which the origin and destination nodes both belong.</li>
+        		<li>a geometry object representing the road segment, encoded as a WKT Linestring</li>
+        	</ul>
+        		The output of the KNOT Map Matcher node can be directly fed to this node.
+        </inPort>
+          <outPort index="0" name="Road Segment Coverage Data by Day">A table containing coverage metrics computed for each day in the input dataset. 
+          The table contains the following information:
+        	<ul>
+        		<li>For each road segment, the origin and destination OSM nodes, their tags and a geometry representation as WKT Linestrings.</li>
+        		<li>The times it was traversed on a given day, the average time between visits and the same information
+        			broken down among four time slots ([00:00-06:00],[06:00-12:00],[12:00-18:00],[18:00-24:00]).</li>
+        	</ul>
+        </outPort>
+	  	<outPort index="1" name="Road Segment Coverage Data">A table containing the following information:
+	  		<ul>
+	  			<li>For each road segment, the origin and destination OSM nodes, their tags and a geometry representation as WKT Linestrings.</li>
+	  			<li>The number of times it was traversed by the input trajectories and the average time between subsequent visits.</li>
+	  		</ul>
+	  	</outPort>
+    </ports>    
+</knimeNode>

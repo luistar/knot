@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml>
+<knimeNode icon="./mapmatcher-16.png" type="Manipulator" xmlns="http://knime.org/node/v2.8" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://knime.org/node/v2.10 http://knime.org/node/v2.10.xsd">
+    <name>Map Matcher</name>
+    
+    <shortDescription>
+        Match a route, described as a WKT-like Linestring, to the traversed street segments. 
+    </shortDescription>
+    
+    <fullDescription>
+        <intro>This node takes a route, encoded as a WKT Linestring, and matches it to a sequence of traversed OSM road segments, that can be analyzed
+        	   by the coverage analyzer nodes in KNOT. 
+        </intro>
+        
+        
+        <option name="Coordinate Input Format">Either {lon,lat} or {lat,lon}.</option>
+        <option name="OSM Data File">The path in which the .osm file containing the map data can be found.</option>
+        <option name="OSRM Host">The url at which the OSRM instance used for map-matching can be reached</option>
+        <option name="Include Never Visited Segments">By enabling this checkbox also the segments that were never visited
+        will be added to the result table. If not, only the segments visited at least once will show up in the result.</option>
+        
+    </fullDescription>
+    
+    <ports>
+        <inPort index="0" name="Input Trajectories">A table containining data about routes. 
+        It must contain the following columns:
+        	   <ul>
+        	   	<li>an integer that identifies the vehicle to which each trajectory belongs;</li>
+        	   	<li>a LocalDateTime that pinpoints the starting time of the route; </li>
+        	   	<li>a String containing a WKT-like representation of the route.</li>
+        	   </ul> 
+       	   </inPort>
+        <outPort index="0" name="Matched OSM Segments">A table containing information about the traversed segments
+        for each input route and, optionally, data about the segments that were never visited.</outPort>
+    </ports>    
+</knimeNode>

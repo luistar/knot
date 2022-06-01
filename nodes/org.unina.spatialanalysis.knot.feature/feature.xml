@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature
+      id="org.unina.spatialanalysis.knot.feature"
+      label="KNOT - KNime mObility Toolkit"
+      version="1.0.0.qualifier"
+      provider-name="KNOT: KNime mObility Toolkit">
+
+   <description url="http://www.example.com/description">
+      KNOT is a KNIME plugin helping you visually compose intuitive, reproducible, and easy to distribute Knowledge Discovery pipelines for massive mobility datasets including — but not limited to — Floating Car Data (FCD) ones.
+   </description>
+
+   <copyright url="http://www.example.com/copyright">
+      [Enter Copyright Description here.]
+   </copyright>
+
+   <license url="http://www.example.com/license">
+      Open-source MIT Licensed
+   </license>
+
+   <plugin
+         id="org.unina.spatialanalysis.routegridanalyzer"
+         download-size="0"
+         install-size="0"
+         version="1.0.0.qualifier"/>
+
+   <plugin
+         id="org.unina.spatialanalysis.mapmatcher"
+         download-size="0"
+         install-size="0"
+         version="1.0.0.qualifier"/>
+
+   <plugin
+         id="org.unina.spatialanalysis.wktgeometryfilter"
+         download-size="0"
+         install-size="0"
+         version="1.0.0.qualifier"/>
+
+   <plugin
+         id="org.unina.spatialanalysis.routecalculator"
+         download-size="0"
+         install-size="0"
+         version="1.0.0.qualifier"/>
+
+   <plugin
+         id="org.unina.spatialanalysis.trajectoryassigner"
+         download-size="0"
+         install-size="0"
+         version="1.0.0.qualifier"/>
+
+   <plugin
+         id="org.unina.spatialanalysis.routestepanalyzer"
+         download-size="0"
+         install-size="0"
+         version="1.0.0.qualifier"/>
+
+</feature>
