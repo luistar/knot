@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+<plugin>
+
+    <extension
+         point="org.knime.workbench.repository.categories">
+      <category
+            description="KNOT"
+            icon="src/org/unina/spatialanalysis/mapmatcher/map-search-16.png"
+            level-id="knot"
+            name="KNOT"
+            path="/community"/>
+	</extension>
+   
+   <extension
+         point="org.knime.workbench.repository.nodes">
+      <node
+            category-path="/community/knot"
+            deprecated="false"
+            factory-class="org.unina.spatialanalysis.mapmatcher.MapMatcherNodeFactory"/>
+      <node
+            category-path="/community/knot"
+            deprecated="false"
+            factory-class="org.unina.spatialanalysis.routecalculator.RouteCalculatorNodeFactory"
+            hidden="false">
+      </node>
+      <node
+            category-path="/community/knot"
+            deprecated="false"
+            factory-class="org.unina.spatialanalysis.routegridanalyzer.RouteGridAnalyzerNodeFactory"
+            hidden="false">
+      </node>
+      <node
+            category-path="/community/knot"
+            deprecated="false"
+            factory-class="org.unina.spatialanalysis.routestepanalyzer.RouteStepAnalyzerNodeFactory"
+            hidden="false">
+      </node>
+      <node
+            category-path="/community/knot"
+            deprecated="false"
+            factory-class="org.unina.spatialanalysis.trajectoryassigner.TrajectoryAssignerNodeFactory"
+            hidden="false">
+      </node>
+      <node
+            category-path="/community/knot"
+            deprecated="false"
+            factory-class="org.unina.spatialanalysis.wktgeometryfilter.WKTGeometryFilterNodeFactory"
+            hidden="false">
+      </node>
+   </extension>
+   
+</plugin>

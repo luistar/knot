@@ -18,39 +18,10 @@
    </license>
 
    <plugin
-         id="org.unina.spatialanalysis.routegridanalyzer"
+         id="org.unina.spatialanalysis.knot"
          download-size="0"
          install-size="0"
-         version="1.0.0.qualifier"/>
-
-   <plugin
-         id="org.unina.spatialanalysis.mapmatcher"
-         download-size="0"
-         install-size="0"
-         version="1.0.0.qualifier"/>
-
-   <plugin
-         id="org.unina.spatialanalysis.wktgeometryfilter"
-         download-size="0"
-         install-size="0"
-         version="1.0.0.qualifier"/>
-
-   <plugin
-         id="org.unina.spatialanalysis.routecalculator"
-         download-size="0"
-         install-size="0"
-         version="1.0.0.qualifier"/>
-
-   <plugin
-         id="org.unina.spatialanalysis.trajectoryassigner"
-         download-size="0"
-         install-size="0"
-         version="1.0.0.qualifier"/>
-
-   <plugin
-         id="org.unina.spatialanalysis.routestepanalyzer"
-         download-size="0"
-         install-size="0"
-         version="1.0.0.qualifier"/>
+         version="0.0.0"
+         unpack="false"/>
 
 </feature>
