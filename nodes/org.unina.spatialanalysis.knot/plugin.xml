@@ -6,7 +6,7 @@
          point="org.knime.workbench.repository.categories">
       <category
             description="KNOT"
-            icon="src/org/unina/spatialanalysis/mapmatcher/map-search-16.png"
+            icon="icons/map-search-16.png"
             level-id="knot"
             name="KNOT"
             path="/community"/>
